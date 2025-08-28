@@ -5,12 +5,24 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2, HeartPulse, Bike, Book, MoreHorizontal, Loader2 } from 'lucide-react';
+import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2, HeartPulse, Bike, Book, MoreHorizontal, Loader2, ListFilter, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Slider } from '@/components/ui/slider';
+
 
 const allProducts: Product[] = [
   // Existing products...
@@ -253,11 +265,17 @@ export default function MarketplacePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const observer = useRef<IntersectionObserver>();
+
+  const [sortBy, setSortBy] = useState('newest');
+  const [condition, setCondition] = useState('all');
+  const [city, setCity] = useState('all');
+  const [priceRange, setPriceRange] = useState([0, 2000000]);
   
   useEffect(() => {
+    // TODO: Apply filters to allProducts before setting displayed products
     setDisplayedProducts(allProducts.slice(0, INITIAL_LOAD_COUNT));
     setHasMore(allProducts.length > INITIAL_LOAD_COUNT);
-  }, []);
+  }, [sortBy, condition, city, priceRange]);
 
   const loadMoreProducts = useCallback(() => {
     if (isLoading || !hasMore) return;
@@ -265,6 +283,7 @@ export default function MarketplacePage() {
     setIsLoading(true);
     // Simulate network delay
     setTimeout(() => {
+        // TODO: Apply filters here as well when loading more
         const currentLength = displayedProducts.length;
         const newProducts = allProducts.slice(currentLength, currentLength + LOAD_MORE_COUNT);
 
@@ -320,6 +339,74 @@ export default function MarketplacePage() {
                       <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
               </div>
+
+            {/* Filters Bar */}
+            <div className="mb-8 p-4 bg-white rounded-lg shadow-sm flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2">
+                    <ListFilter className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-semibold">Filter & Sort:</span>
+                </div>
+                <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <Select value={condition} onValueChange={setCondition}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Condition" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Conditions</SelectItem>
+                            <SelectItem value="New">New</SelectItem>
+                            <SelectItem value="Used - Like New">Used - Like New</SelectItem>
+                            <SelectItem value="Used - Good">Used - Good</SelectItem>
+                            <SelectItem value="Used - Fair">Used - Fair</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    
+                    <Select value={city} onValueChange={setCity}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="City" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Cities</SelectItem>
+                            <SelectItem value="erbil">Erbil</SelectItem>
+                            <SelectItem value="sulaymaniyah">Sulaymaniyah</SelectItem>
+                            <SelectItem value="duhok">Duhok</SelectItem>
+                            <SelectItem value="zaxo">Zaxo</SelectItem>
+                        </SelectContent>
+                    </Select>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="w-full justify-start font-normal">
+                                <SlidersHorizontal className="mr-2 h-4 w-4" /> Price Range
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent className="w-64 p-4" align="start">
+                            <label className="block text-sm font-medium mb-2">Price Range (IQD)</label>
+                            <Slider
+                                defaultValue={[0, 2000000]}
+                                max={2000000}
+                                step={10000}
+                                onValueChange={(value) => setPriceRange(value)}
+                            />
+                            <div className="flex justify-between text-xs mt-2 text-muted-foreground">
+                                <span>{new Intl.NumberFormat('en-IQ').format(priceRange[0])}</span>
+                                <span>{new Intl.NumberFormat('en-IQ').format(priceRange[1])}</span>
+                            </div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                     <Select value={sortBy} onValueChange={setSortBy}>
+                        <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Sort By" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="newest">Sort by: Newest</SelectItem>
+                            <SelectItem value="price-asc">Sort by: Price (Low-High)</SelectItem>
+                            <SelectItem value="price-desc">Sort by: Price (High-Low)</SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
               <div className="grid grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {displayedProducts.map((product, index) => {
                     if(displayedProducts.length === index + 1) {
