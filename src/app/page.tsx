@@ -25,6 +25,7 @@ const products: Product[] = [
     category: 'Home & Garden',
     description: 'Beautiful handwoven rug with traditional Kurdish patterns. Made from 100% pure wool. A perfect addition to any home.',
     condition: 'New',
+    createdAt: '2 days ago',
   },
   {
     id: '2',
@@ -40,7 +41,8 @@ const products: Product[] = [
     },
     category: 'Electronics',
     description: 'Latest model smartphone with a stunning display, powerful processor, and all-day battery life. Unlocked and ready to use.',
-    condition: 'New',
+    condition: 'Used - Like New',
+    createdAt: '5 days ago',
   },
   {
     id: '3',
@@ -57,6 +59,7 @@ const products: Product[] = [
     category: 'Fashion',
     description: 'Elegant and modest designer abaya made from high-quality crepe fabric. Features intricate embroidery.',
     condition: 'New',
+    createdAt: '1 week ago',
   },
   {
     id: '4',
@@ -73,6 +76,7 @@ const products: Product[] = [
     category: 'Health & Beauty',
     description: 'A complete set of organic skincare products, including a cleanser, toner, and moisturizer. Perfect for all skin types.',
     condition: 'New',
+    createdAt: '1 day ago',
   },
 ];
 
@@ -116,7 +120,7 @@ export default function MarketplacePage() {
         <section id="special-offers" className="py-12 bg-accent">
           <div className="container mx-auto px-4">
               <div className="flex items-center justify-between mb-8">
-                  <h2 className="text-2xl md:text-3xl font-bold">Special Offers</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold">Latest Listings</h2>
                   <Button asChild variant="link" className="text-primary font-semibold">
                       <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>

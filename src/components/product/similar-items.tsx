@@ -12,13 +12,13 @@ interface SimilarItemsProps {
   product: Product;
 }
 
-const placeholderProducts: Product[] = [
+const placeholderProducts: Omit<Product, 'name' | 'id' | 'imageUrl' | 'imageHint' | 'description'>[] = [
     // These are just for visual structure before real data loads
-    { id: 'p1', name: 'Placeholder Item 1', price: 100000, currency: 'IQD', imageUrl: 'https://picsum.photos/seed/p1/400/300', imageHint: 'placeholder', seller: { name: 'Seller A', avatarUrl: 'https://picsum.photos/seed/sa/40/40', rating: 4.5 }, category: 'Other', description: '', condition: 'New' },
-    { id: 'p2', name: 'Placeholder Item 2', price: 120000, currency: 'IQD', imageUrl: 'https://picsum.photos/seed/p2/400/300', imageHint: 'placeholder', seller: { name: 'Seller B', avatarUrl: 'https://picsum.photos/seed/sb/40/40', rating: 4.7 }, category: 'Other', description: '', condition: 'New' },
-    { id: 'p3', name: 'Placeholder Item 3', price: 80000, currency: 'IQD', imageUrl: 'https://picsum.photos/seed/p3/400/300', imageHint: 'placeholder', seller: { name: 'Seller C', avatarUrl: 'https://picsum.photos/seed/sc/40/40', rating: 4.2 }, category: 'Other', description: '', condition: 'New' },
-    { id: 'p4', name: 'Placeholder Item 4', price: 150000, currency: 'IQD', imageUrl: 'https://picsum.photos/seed/p4/400/300', imageHint: 'placeholder', seller: { name: 'Seller D', avatarUrl: 'https://picsum.photos/seed/sd/40/40', rating: 4.8 }, category: 'Other', description: '', condition: 'New' },
-    { id: 'p5', name: 'Placeholder Item 5', price: 200000, currency: 'IQD', imageUrl: 'https://picsum.photos/seed/p5/400/300', imageHint: 'placeholder', seller: { name: 'Seller E', avatarUrl: 'https://picsum.photos/seed/se/40/40', rating: 4.9 }, category: 'Other', description: '', condition: 'New' },
+    { price: 100000, currency: 'IQD', seller: { name: 'Seller A', avatarUrl: 'https://picsum.photos/seed/sa/40/40', rating: 4.5 }, category: 'Other', condition: 'New', createdAt: '1 day ago' },
+    { price: 120000, currency: 'IQD', seller: { name: 'Seller B', avatarUrl: 'https://picsum.photos/seed/sb/40/40', rating: 4.7 }, category: 'Other', condition: 'Used - Like New', createdAt: '3 days ago' },
+    { price: 80000, currency: 'IQD', seller: { name: 'Seller C', avatarUrl: 'https://picsum.photos/seed/sc/40/40', rating: 4.2 }, category: 'Other', condition: 'New', createdAt: '1 week ago' },
+    { price: 150000, currency: 'IQD', seller: { name: 'Seller D', avatarUrl: 'https://picsum.photos/seed/sd/40/40', rating: 4.8 }, category: 'Other', condition: 'Used - Good', createdAt: '2 days ago' },
+    { price: 200000, currency: 'IQD', seller: { name: 'Seller E', avatarUrl: 'https://picsum.photos/seed/se/40/40', rating: 4.9 }, category: 'Other', condition: 'New', createdAt: '4 days ago' },
 ];
 
 export default function SimilarItems({ product }: SimilarItemsProps) {
@@ -44,12 +44,13 @@ export default function SimilarItems({ product }: SimilarItemsProps) {
     fetchRecommendations();
   }, [product]);
   
-  const recommendedProducts = recommendations.map((name, index) => {
+  const recommendedProducts: Product[] = recommendations.map((name, index) => {
     const baseProduct = placeholderProducts[index % placeholderProducts.length];
     return {
         ...baseProduct,
         id: `rec-${index}`,
         name,
+        description: `This is a recommended item: ${name}`,
         imageUrl: `https://picsum.photos/seed/${name.replace(/\s/g, '')}/400/300`,
         imageHint: name.split(' ').slice(0, 2).join(' ').toLowerCase(),
     };

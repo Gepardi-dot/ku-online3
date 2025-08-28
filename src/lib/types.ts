@@ -15,4 +15,5 @@ export interface Product {
   category: string;
   description: string;
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
+  createdAt: string; // New field for upload timestamp
 }

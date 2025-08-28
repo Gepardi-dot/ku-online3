@@ -11,9 +11,6 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const discount = Math.round(((Math.random() * 20) + 10)); // Random discount between 10-30%
-  const originalPrice = product.price / (1 - (discount / 100));
-
   return (
     <Link href={`/products/${product.id}`} className="group block">
       <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
@@ -26,29 +23,17 @@ export default function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             data-ai-hint={product.imageHint}
           />
-          <Badge variant="destructive" className="absolute top-3 left-3">-{discount}%</Badge>
         </div>
         <CardContent className="p-4 flex flex-col flex-grow">
-          <h3 className="font-semibold text-sm leading-tight line-clamp-2 group-hover:text-primary">
+          <h3 className="font-semibold text-sm leading-tight line-clamp-2 group-hover:text-primary mb-2">
             {product.name}
           </h3>
           
-          <div className="mt-2">
-            <span className="font-bold text-primary text-lg">
+          <div className="flex-grow space-y-2">
+            <p className="font-bold text-primary text-lg">
               {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(product.price)}
-            </span>
-             <span className="text-gray-400 text-sm line-through ml-2">
-                {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(originalPrice)}
-            </span>
-          </div>
-
-          <div className="flex items-center mt-2 text-xs text-muted-foreground">
-            <div className="flex text-yellow-400">
-              {[...Array(Math.floor(product.seller.rating))].map((_, i) => <Star key={i} className="w-3 h-3 fill-current" />)}
-              {product.seller.rating % 1 >= 0.5 && <Star className="w-3 h-3 fill-current" />}
-              {[...Array(5 - Math.ceil(product.seller.rating))].map((_, i) => <Star key={i} className="w-3 h-3 text-gray-300 fill-current" />)}
-            </div>
-            <span className="ml-2">({(Math.random() * 5).toFixed(1)}k)</span>
+            </p>
+             <Badge variant="outline" className="font-normal">{product.condition}</Badge>
           </div>
 
           <div className="flex items-center gap-2 mt-4 pt-3 border-t">
