@@ -127,7 +127,7 @@ export default function MarketplacePage() {
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Shop By Category</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                   {categories.map(category => (
-                     <Link href="#" key={category.name} className="bg-gray-50 dark:bg-gray-900 rounded-xl p-5 text-center transition-transform duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg">
+                     <Link href="#" key={category.name} className="bg-gray-50 rounded-xl p-5 text-center transition-transform duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg">
                         <div className="w-16 h-16 mx-auto mb-3 bg-accent rounded-full flex items-center justify-center">
                            {category.icon}
                         </div>
@@ -157,7 +157,7 @@ export default function MarketplacePage() {
         </section>
 
         {/* Why Choose Us */}
-        <section className="py-12 bg-white dark:bg-gray-900">
+        <section className="py-12 bg-white">
             <div className="container mx-auto px-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Why Choose KurdMall?</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -198,7 +198,7 @@ export default function MarketplacePage() {
         </section>
         
         {/* FAQ Section */}
-        <section className="py-12 bg-gray-50 dark:bg-black">
+        <section className="py-12 bg-gray-50">
             <div className="container mx-auto px-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
                 <div className="max-w-3xl mx-auto">
