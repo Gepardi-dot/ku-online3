@@ -333,9 +333,9 @@ export default function MarketplacePage() {
         </section>
 
         {/* Special Offers */}
-        <section id="special-offers" className="py-12 bg-accent">
+        <section id="special-offers" className="pt-6 pb-12 bg-accent">
           <div className="container mx-auto px-4">
-              <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl md:text-3xl font-bold">Latest Listings</h2>
                   <Button asChild variant="link" className="text-primary font-semibold">
                       <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
@@ -343,7 +343,7 @@ export default function MarketplacePage() {
               </div>
 
             {/* Filters Bar */}
-            <div className="mb-8 p-4 bg-white rounded-lg shadow-sm">
+            <div className="mb-4 p-4 bg-white rounded-lg shadow-sm">
                 <button 
                     onClick={() => setShowFilters(!showFilters)}
                     className="w-full flex justify-between items-center"
