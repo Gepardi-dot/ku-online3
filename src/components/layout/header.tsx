@@ -52,6 +52,7 @@ export default function AppHeader() {
                             <DropdownMenuRadioItem value="erbil">Erbil</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="sulaymaniyah">Sulaymaniyah</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="duhok">Duhok</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="zaxo">Zaxo</DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -104,6 +105,7 @@ export default function AppHeader() {
                             <DropdownMenuRadioItem value="erbil">Erbil</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="sulaymaniyah">Sulaymaniyah</DropdownMenuRadioItem>
                             <DropdownMenuRadioItem value="duhok">Duhok</DropdownMenuRadioItem>
+                            <DropdownMenuRadioItem value="zaxo">Zaxo</DropdownMenuRadioItem>
                         </DropdownMenuRadioGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
