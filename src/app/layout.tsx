@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { AnnouncementBar } from '@/components/layout/announcement-bar';
 import AppFooter from '@/components/layout/footer';
+import MobileNav from '@/components/layout/mobile-nav';
 
 export const metadata: Metadata = {
   title: 'KurdMall - Your Global Online Shopping Destination',
@@ -27,7 +28,8 @@ export default function RootLayout({
       </head>
       <body className={cn('font-body antialiased', 'min-h-screen bg-background font-sans')}>
           <AnnouncementBar />
-          {children}
+          <div className="pb-16 md:pb-0">{children}</div>
+          <MobileNav />
           <AppFooter />
           <Toaster />
       </body>
