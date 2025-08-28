@@ -82,6 +82,42 @@ const products: Product[] = [
     createdAt: '1 day ago',
     location: 'Erbil',
   },
+   {
+    id: '5',
+    name: 'Antique Kurdish Dagger',
+    price: 350000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/dagger/400/300',
+    imageHint: 'kurdish dagger',
+    seller: {
+      name: 'Heritage Artifacts',
+      avatarUrl: 'https://picsum.photos/seed/seller5/40/40',
+      rating: 4.9,
+    },
+    category: 'Other',
+    description: 'A rare and authentic Kurdish dagger from the 19th century. Features an ornate silver-inlaid handle and a finely crafted steel blade.',
+    condition: 'Used - Good',
+    createdAt: '3 days ago',
+    location: 'Erbil',
+  },
+  {
+    id: '6',
+    name: 'Gaming Laptop',
+    price: 1200000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/laptop/400/300',
+    imageHint: 'gaming laptop',
+    seller: {
+      name: 'Erbil Electronics',
+      avatarUrl: 'https://picsum.photos/seed/seller2/40/40',
+      rating: 4.9,
+    },
+    category: 'Electronics',
+    description: 'High-performance gaming laptop with RTX 3070, 16GB RAM, and 1TB SSD. Ready for all modern games.',
+    condition: 'New',
+    createdAt: '6 days ago',
+    location: 'Sulaymaniyah',
+  },
 ];
 
 const categories = [
@@ -129,7 +165,7 @@ export default function MarketplacePage() {
                       <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
               </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
                 {products.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}
