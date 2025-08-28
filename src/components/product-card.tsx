@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 
@@ -41,7 +41,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               <AvatarImage src={product.seller.avatarUrl} alt={product.seller.name} />
               <AvatarFallback>{product.seller.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <p className="text-xs text-muted-foreground truncate">{product.seller.name}</p>
+            <div className="flex-1">
+                <p className="text-xs text-muted-foreground truncate">{product.seller.name}</p>
+                <div className="flex items-center text-xs text-muted-foreground/80 gap-1">
+                    <MapPin className="h-3 w-3" />
+                    <p className="truncate">{product.location}</p>
+                </div>
+            </div>
           </div>
         </CardContent>
       </Card>

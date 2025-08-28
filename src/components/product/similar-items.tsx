@@ -12,7 +12,7 @@ interface SimilarItemsProps {
   product: Product;
 }
 
-const placeholderProducts: Omit<Product, 'name' | 'id' | 'imageUrl' | 'imageHint' | 'description'>[] = [
+const placeholderProducts: Omit<Product, 'name' | 'id' | 'imageUrl' | 'imageHint' | 'description' | 'location'>[] = [
     // These are just for visual structure before real data loads
     { price: 100000, currency: 'IQD', seller: { name: 'Seller A', avatarUrl: 'https://picsum.photos/seed/sa/40/40', rating: 4.5 }, category: 'Other', condition: 'New', createdAt: '1 day ago' },
     { price: 120000, currency: 'IQD', seller: { name: 'Seller B', avatarUrl: 'https://picsum.photos/seed/sb/40/40', rating: 4.7 }, category: 'Other', condition: 'Used - Like New', createdAt: '3 days ago' },
@@ -53,6 +53,7 @@ export default function SimilarItems({ product }: SimilarItemsProps) {
         description: `This is a recommended item: ${name}`,
         imageUrl: `https://picsum.photos/seed/${name.replace(/\s/g, '')}/400/300`,
         imageHint: name.split(' ').slice(0, 2).join(' ').toLowerCase(),
+        location: ['Erbil', 'Sulaymaniyah', 'Duhok'][index % 3],
     };
   });
 

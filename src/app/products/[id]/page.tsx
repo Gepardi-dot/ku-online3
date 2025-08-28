@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { Star, MessageSquare, Share2, Heart, Languages, Loader2, Calendar, Tag } from 'lucide-react';
+import { Star, MessageSquare, Share2, Heart, Languages, Loader2, Calendar, Tag, MapPin } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import SimilarItems from '@/components/product/similar-items';
 import { translateText } from '@/ai/flows/real-time-translation';
@@ -35,6 +35,7 @@ const product: Product = {
   description: 'Beautiful handwoven rug with traditional Kurdish patterns. Made from 100% pure wool, this piece is a testament to the rich cultural heritage of the region. Its vibrant colors and intricate design make it a perfect centerpiece for any living room or a unique wall hanging. The rug measures approximately 120cm by 180cm. It is durable, naturally stain-resistant, and will bring warmth and artistry to your home for years to come.',
   condition: 'New',
   createdAt: '2 days ago',
+  location: 'Erbil',
 };
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
@@ -99,6 +100,10 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
                    <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4" />
                     <span>Listed: <span className="font-medium text-foreground">{product.createdAt}</span></span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>Location: <span className="font-medium text-foreground">{product.location}</span></span>
                   </div>
               </div>
             </div>

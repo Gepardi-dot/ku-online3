@@ -26,6 +26,7 @@ const products: Product[] = [
     description: 'Beautiful handwoven rug with traditional Kurdish patterns. Made from 100% pure wool. A perfect addition to any home.',
     condition: 'New',
     createdAt: '2 days ago',
+    location: 'Erbil',
   },
   {
     id: '2',
@@ -43,6 +44,7 @@ const products: Product[] = [
     description: 'Latest model smartphone with a stunning display, powerful processor, and all-day battery life. Unlocked and ready to use.',
     condition: 'Used - Like New',
     createdAt: '5 days ago',
+    location: 'Sulaymaniyah',
   },
   {
     id: '3',
@@ -60,6 +62,7 @@ const products: Product[] = [
     description: 'Elegant and modest designer abaya made from high-quality crepe fabric. Features intricate embroidery.',
     condition: 'New',
     createdAt: '1 week ago',
+    location: 'Duhok',
   },
   {
     id: '4',
@@ -77,6 +80,7 @@ const products: Product[] = [
     description: 'A complete set of organic skincare products, including a cleanser, toner, and moisturizer. Perfect for all skin types.',
     condition: 'New',
     createdAt: '1 day ago',
+    location: 'Erbil',
   },
 ];
 
