@@ -341,12 +341,12 @@ export default function MarketplacePage() {
               </div>
 
             {/* Filters Bar */}
-            <div className="mb-8 p-4 bg-white rounded-lg shadow-sm flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2">
+            <div className="mb-8 p-4 bg-white rounded-lg shadow-sm flex flex-col md:flex-row md:items-center gap-4">
+                <div className="flex items-center gap-2 flex-shrink-0">
                     <ListFilter className="h-5 w-5 text-muted-foreground" />
                     <span className="font-semibold">Filter & Sort:</span>
                 </div>
-                <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                     <Select value={condition} onValueChange={setCondition}>
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Condition" />
@@ -468,6 +468,8 @@ export default function MarketplacePage() {
     </AppLayout>
   );
 }
+
+    
 
     
 
