@@ -337,29 +337,6 @@ export default function MarketplacePage() {
           </div>
         </section>
 
-        {/* App Download Section */}
-        <section className="py-12 bg-primary text-white">
-            <div className="container mx-auto px-4">
-                <div className="flex flex-col md:flex-row items-center">
-                    <div className="md:w-1/2 mb-8 md:mb-0">
-                        <h2 className="text-2xl md:text-3xl font-bold mb-4">Shop On The Go</h2>
-                        <p className="mb-6 opacity-90">Download the KU-ONLINE app for exclusive mobile-only deals, faster browsing, and personalized recommendations.</p>
-                         <div className="flex flex-wrap gap-3">
-                            <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
-                                <Link href="#">Google Play</Link>
-                            </Button>
-                            <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
-                                <Link href="#">App Store</Link>
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="md:w-1/2 flex justify-center">
-                        <Image src="https://picsum.photos/seed/app/815/543" alt="Mobile App" width={815} height={543} className="w-full max-w-sm rounded-xl shadow-xl" data-ai-hint="mobile app" />
-                    </div>
-                </div>
-            </div>
-        </section>
-        
         {/* FAQ Section */}
         <section className="py-12 bg-gray-50">
             <div className="container mx-auto px-4">
