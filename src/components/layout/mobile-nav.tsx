@@ -21,7 +21,22 @@ export default function MobileNav() {
       <nav className="flex justify-around items-center h-16">
         {navItems.map((item) => {
           const isActive =
-            item.href === '/' ? pathname === item.href : pathname.startsWith(item.href);
+            (item.href === '/' && pathname === item.href) ||
+            (item.href !== '/' && pathname.startsWith(item.href));
+
+          if (item.href === '/create-listing') {
+            return (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="relative -mt-6 flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-full bg-primary text-sm font-medium text-primary-foreground shadow-lg transition-transform hover:scale-105"
+              >
+                <item.icon className="h-7 w-7" />
+                <span className="sr-only">{item.label}</span>
+              </Link>
+            );
+          }
+
           return (
             <Link
               key={item.label}
