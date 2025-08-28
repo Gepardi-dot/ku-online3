@@ -1,7 +1,7 @@
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Mobile, Shirt, Home, Gamepad2 } from 'lucide-react';
+import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2 } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
@@ -77,7 +77,7 @@ const products: Product[] = [
 ];
 
 const categories = [
-  { name: 'Electronics', description: 'Phones, gadgets & more', icon: <Mobile className="text-primary text-xl" /> },
+  { name: 'Electronics', description: 'Phones, gadgets & more', icon: <Smartphone className="text-primary text-xl" /> },
   { name: 'Fashion', description: 'Clothing, shoes & accessories', icon: <Shirt className="text-primary text-xl" /> },
   { name: 'Home & Garden', description: 'Furniture, decor & more', icon: <Home className="text-primary text-xl" /> },
   { name: 'Toys & Hobbies', description: 'Games, collectibles & more', icon: <Gamepad2 className="text-primary text-xl" /> },
