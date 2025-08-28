@@ -1,16 +1,33 @@
+
+"use client";
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin, Heart } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
+import { Button } from './ui/button';
+import { useToast } from '@/hooks/use-toast';
+import React from 'react';
 
 interface ProductCardProps {
   product: Product;
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { toast } = useToast();
+
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toast({
+        title: "Added to Favorites",
+        description: `${product.name} has been added to your wishlist.`,
+    })
+  }
+
   return (
     <Link href={`/products/${product.id}`} className="group block">
       <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
@@ -23,6 +40,15 @@ export default function ProductCard({ product }: ProductCardProps) {
             sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 20vw"
             data-ai-hint={product.imageHint}
           />
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="absolute top-2 right-2 bg-white/70 hover:bg-white text-muted-foreground hover:text-primary rounded-full h-8 w-8"
+            onClick={handleFavoriteClick}
+            aria-label="Add to favorites"
+          >
+            <Heart className="h-5 w-5" />
+          </Button>
         </div>
         <CardContent className="p-2 flex flex-col flex-grow">
           <h3 className="font-semibold text-xs leading-tight line-clamp-2 group-hover:text-primary mb-1">
@@ -33,9 +59,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             <p className="font-bold text-primary text-base">
               {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(product.price)}
             </p>
-             <div className="flex items-center text-xs text-muted-foreground/90 gap-1">
+             <div className="flex items-center text-xs text-muted-foreground/90 gap-1 font-semibold">
                 <MapPin className="h-3 w-3" />
-                <p className="font-semibold">{product.location}</p>
+                <p>{product.location}</p>
             </div>
             <div className="flex items-center text-xs text-muted-foreground/90 gap-1">
                 <Calendar className="h-3 w-3" />
