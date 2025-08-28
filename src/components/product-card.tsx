@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import type { Product } from '@/lib/types';
 import { Badge } from '@/components/ui/badge';
 
@@ -33,9 +33,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             <p className="font-bold text-primary text-lg">
               {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(product.price)}
             </p>
-             <div className="flex items-center text-sm text-muted-foreground/90 gap-1">
+             <div className="flex items-center text-sm text-muted-foreground/90 gap-1.5">
                 <MapPin className="h-3.5 w-3.5" />
                 <p className="text-base font-medium">{product.location}</p>
+            </div>
+            <div className="flex items-center text-sm text-muted-foreground/90 gap-1.5">
+                <Calendar className="h-3.5 w-3.5" />
+                <p className="text-xs">{product.createdAt}</p>
             </div>
             <Badge variant="outline" className="font-normal text-lg py-1 px-3">{product.condition}</Badge>
           </div>
