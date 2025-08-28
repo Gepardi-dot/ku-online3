@@ -94,33 +94,6 @@ export default function MarketplacePage() {
   return (
     <AppLayout>
       <div className="flex flex-col">
-        {/* Hero Section */}
-        <section className="bg-gradient-to-r from-primary to-orange-400 text-white">
-          <div className="container mx-auto px-4 py-12 md:py-16">
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-1/2 mb-8 md:mb-0">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Your Global & Local Shopping Destination</h1>
-                <p className="text-lg mb-6 opacity-90">Discover millions of products at unbeatable prices, right here in Kurdistan.</p>
-                <div className="flex flex-wrap gap-3">
-                  <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
-                    <Link href="#special-offers">Shop Now</Link>
-                  </Button>
-                  <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-primary">
-                    <Link href="#">Download App</Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="md:w-1/2 flex justify-center">
-                <div className="relative w-full max-w-md">
-                    <div className="absolute -top-6 -left-6 w-32 h-32 bg-white opacity-10 rounded-full"></div>
-                    <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-white opacity-10 rounded-full"></div>
-                    <Image src="https://picsum.photos/seed/shopping/772/515" alt="Online Shopping" width={772} height={515} className="rounded-xl shadow-xl relative z-10" data-ai-hint="online shopping" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* Featured Categories */}
         <section className="py-12 bg-card">
             <div className="container mx-auto px-4">
