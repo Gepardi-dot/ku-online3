@@ -33,20 +33,20 @@ export default function ProductCard({ product }: ProductCardProps) {
             <p className="font-bold text-primary text-lg">
               {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(product.price)}
             </p>
-             <Badge variant="outline" className="font-normal">{product.condition}</Badge>
+             <div className="flex items-center text-xs text-muted-foreground/90 gap-1">
+                <MapPin className="h-3.5 w-3.5" />
+                <p>{product.location}</p>
+            </div>
+            <Badge variant="outline" className="font-normal text-sm py-1 px-3">{product.condition}</Badge>
           </div>
 
           <div className="flex items-center gap-2 mt-4 pt-3 border-t">
-            <Avatar className="h-6 w-6">
+            <Avatar className="h-7 w-7">
               <AvatarImage src={product.seller.avatarUrl} alt={product.seller.name} />
               <AvatarFallback>{product.seller.name.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex-1">
-                <p className="text-xs text-muted-foreground truncate">{product.seller.name}</p>
-                <div className="flex items-center text-xs text-muted-foreground/80 gap-1">
-                    <MapPin className="h-3 w-3" />
-                    <p className="truncate">{product.location}</p>
-                </div>
+                <p className="text-sm text-muted-foreground truncate">{product.seller.name}</p>
             </div>
           </div>
         </CardContent>
