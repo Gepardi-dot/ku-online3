@@ -65,11 +65,12 @@ export default function AppHeader() {
               <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Electronics</a></li>
               <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Fashion</a></li>
               <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Home & Garden</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Toys & Hobbies</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Beauty & Health</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Sports & Outdoors</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Automotive</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Tools & Home Improvement</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Toys</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Sports</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Kids</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Motors</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Services</a></li>
+              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Others</a></li>
           </ul>
         </div>
       </nav>

@@ -120,13 +120,6 @@ const products: Product[] = [
   },
 ];
 
-const categories = [
-  { name: 'Electronics', description: 'Phones, gadgets & more', icon: <Smartphone className="text-primary text-xl" /> },
-  { name: 'Fashion', description: 'Clothing, shoes & accessories', icon: <Shirt className="text-primary text-xl" /> },
-  { name: 'Home & Garden', description: 'Furniture, decor & more', icon: <Home className="text-primary text-xl" /> },
-  { name: 'Toys & Hobbies', description: 'Games, collectibles & more', icon: <Gamepad2 className="text-primary text-xl" /> },
-];
-
 const whyChooseUs = [
     { title: "Fast Shipping", description: "Enjoy reliable shipping on thousands of products from local sellers.", icon: <Zap className="text-primary text-3xl" /> },
     { title: "Buyer Protection", description: "Full refund if you don't receive your order or it's not as described.", icon: <ShieldCheck className="text-primary text-3xl" /> },
@@ -138,24 +131,6 @@ export default function MarketplacePage() {
   return (
     <AppLayout>
       <div className="flex flex-col">
-        {/* Featured Categories */}
-        <section className="py-12 bg-card">
-            <div className="container mx-auto px-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Shop By Category</h2>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                  {categories.map(category => (
-                     <Link href="#" key={category.name} className="bg-gray-50 rounded-xl p-5 text-center transition-transform duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg">
-                        <div className="w-16 h-16 mx-auto mb-3 bg-accent rounded-full flex items-center justify-center">
-                           {category.icon}
-                        </div>
-                        <h3 className="font-semibold">{category.name}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">{category.description}</p>
-                    </Link>
-                  ))}
-                </div>
-            </div>
-        </section>
-
         {/* Special Offers */}
         <section id="special-offers" className="py-12 bg-accent">
           <div className="container mx-auto px-4">
