@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, User, Heart, Bell } from 'lucide-react';
 import { Icons } from '@/components/icons';
+import LanguageSwitcher from '../language-switcher';
 
 export default function AppHeader() {
   return (
@@ -30,6 +31,7 @@ export default function AppHeader() {
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
+            <LanguageSwitcher />
             <Link href="/login" className="flex items-center text-gray-600 hover:text-primary">
               <User className="h-6 w-6" />
               <span className="text-sm ml-1 hidden sm:inline">Account</span>
