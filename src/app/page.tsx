@@ -1,14 +1,18 @@
+
+'use client';
+
+import { useState, useEffect, useRef, useCallback } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2, HeartPulse, Bike, Book, MoreHorizontal } from 'lucide-react';
+import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2, HeartPulse, Bike, Book, MoreHorizontal, Loader2 } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
-const products: Product[] = [
+const allProducts: Product[] = [
   // Existing products...
   {
     id: '1',
@@ -118,6 +122,114 @@ const products: Product[] = [
     createdAt: '6 days ago',
     location: 'Sulaymaniyah',
   },
+  {
+    id: '7',
+    name: 'Traditional Klash Shoes',
+    price: 90000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/klash/400/300',
+    imageHint: 'kurdish shoes',
+    seller: {
+      name: 'Nishtiman Crafts',
+      avatarUrl: 'https://picsum.photos/seed/seller1/40/40',
+      rating: 4.8,
+    },
+    category: 'Fashion',
+    description: 'Handmade traditional Kurdish Klash shoes. Comfortable, durable, and stylish for any occasion.',
+    condition: 'New',
+    createdAt: '3 days ago',
+    location: 'Duhok',
+  },
+  {
+    id: '8',
+    name: 'Local Honey Jar',
+    price: 25000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/honey/400/300',
+    imageHint: 'jar honey',
+    seller: {
+      name: 'Kurdistan Mountains Honey',
+      avatarUrl: 'https://picsum.photos/seed/seller6/40/40',
+      rating: 5.0,
+    },
+    category: 'Home & Garden',
+    description: 'Pure, raw honey harvested from the mountains of Kurdistan. A sweet and healthy natural product.',
+    condition: 'New',
+    createdAt: '4 days ago',
+    location: 'Erbil',
+  },
+  {
+    id: '9',
+    name: 'Kurdish Poetry Book',
+    price: 15000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/book/400/300',
+    imageHint: 'poetry book',
+    seller: {
+      name: 'Zanyari Bookstore',
+      avatarUrl: 'https://picsum.photos/seed/seller7/40/40',
+      rating: 4.7,
+    },
+    category: 'Books & Media',
+    description: 'A collection of classic and contemporary Kurdish poetry. A must-have for literature lovers.',
+    condition: 'New',
+    createdAt: '1 week ago',
+    location: 'Sulaymaniyah',
+  },
+  {
+    id: '10',
+    name: 'Professional Camera',
+    price: 1800000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/camera/400/300',
+    imageHint: 'professional camera',
+    seller: {
+      name: 'Erbil Electronics',
+      avatarUrl: 'https://picsum.photos/seed/seller2/40/40',
+      rating: 4.9,
+    },
+    category: 'Electronics',
+    description: 'A high-end DSLR camera for professional photographers. Comes with a standard kit lens.',
+    condition: 'Used - Like New',
+    createdAt: '2 weeks ago',
+    location: 'Erbil',
+  },
+  {
+    id: '11',
+    name: 'Leather Jacket',
+    price: 250000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/jacket/400/300',
+    imageHint: 'leather jacket',
+    seller: {
+      name: 'Chic Boutique',
+      avatarUrl: 'https://picsum.photos/seed/seller3/40/40',
+      rating: 4.7,
+    },
+    category: 'Fashion',
+    description: 'A stylish and durable leather jacket for men. Perfect for the colder seasons.',
+    condition: 'New',
+    createdAt: '1 day ago',
+    location: 'Duhok',
+  },
+  {
+    id: '12',
+    name: 'Mountain Bike',
+    price: 450000,
+    currency: 'IQD',
+    imageUrl: 'https://picsum.photos/seed/bike/400/300',
+    imageHint: 'mountain bike',
+    seller: {
+      name: 'Adventure Gear',
+      avatarUrl: 'https://picsum.photos/seed/seller8/40/40',
+      rating: 4.6,
+    },
+    category: 'Sports & Outdoors',
+    description: 'A sturdy mountain bike with 21 speeds and front suspension. Ready for any trail.',
+    condition: 'New',
+    createdAt: '5 days ago',
+    location: 'Sulaymaniyah',
+  }
 ];
 
 const categories = [
@@ -138,7 +250,55 @@ const whyChooseUs = [
     { title: "Great Value", description: "Get competitive prices and regular promotions on millions of products.", icon: <Tags className="text-primary text-3xl" /> },
 ]
 
+const INITIAL_LOAD_COUNT = 6;
+const LOAD_MORE_COUNT = 6;
+
+
 export default function MarketplacePage() {
+  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observer = useRef<IntersectionObserver>();
+  
+  useEffect(() => {
+    setDisplayedProducts(allProducts.slice(0, INITIAL_LOAD_COUNT));
+    setHasMore(allProducts.length > INITIAL_LOAD_COUNT);
+  }, []);
+
+  const loadMoreProducts = useCallback(() => {
+    if (isLoading || !hasMore) return;
+    
+    setIsLoading(true);
+    // Simulate network delay
+    setTimeout(() => {
+        const currentLength = displayedProducts.length;
+        const newProducts = allProducts.slice(currentLength, currentLength + LOAD_MORE_COUNT);
+
+        if(newProducts.length > 0) {
+            setDisplayedProducts(prev => [...prev, ...newProducts]);
+        }
+        
+        if (displayedProducts.length + newProducts.length >= allProducts.length) {
+            setHasMore(false);
+        }
+        setIsLoading(false);
+    }, 500);
+  }, [displayedProducts.length, hasMore, isLoading]);
+
+  const lastProductElementRef = useCallback((node: HTMLDivElement) => {
+    if (isLoading) return;
+    if (observer.current) observer.current.disconnect();
+    
+    observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && hasMore) {
+            loadMoreProducts();
+        }
+    });
+
+    if (node) observer.current.observe(node);
+  }, [isLoading, hasMore, loadMoreProducts]);
+
+
   return (
     <AppLayout>
       <div className="flex flex-col">
@@ -168,11 +328,19 @@ export default function MarketplacePage() {
                       <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
                   </Button>
               </div>
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                {products.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
+              <div className="grid grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                {displayedProducts.map((product, index) => {
+                    if(displayedProducts.length === index + 1) {
+                        return <div ref={lastProductElementRef} key={product.id}><ProductCard product={product} /></div>
+                    }
+                    return <ProductCard key={product.id} product={product} />
+                })}
               </div>
+              {isLoading && (
+                  <div className="flex justify-center mt-8">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                  </div>
+              )}
           </div>
         </section>
 
@@ -262,3 +430,5 @@ export default function MarketplacePage() {
     </AppLayout>
   );
 }
+
+    
