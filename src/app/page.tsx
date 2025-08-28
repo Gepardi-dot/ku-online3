@@ -243,13 +243,6 @@ const categories = [
     { name: 'More', icon: MoreHorizontal, href: '#' },
 ]
 
-const whyChooseUs = [
-    { title: "Fast Shipping", description: "Enjoy reliable shipping on thousands of products from local sellers.", icon: <Zap className="text-primary text-3xl" /> },
-    { title: "Buyer Protection", description: "Full refund if you don't receive your order or it's not as described.", icon: <ShieldCheck className="text-primary text-3xl" /> },
-    { title: "Local & Global Selection", description: "Discover unique products from sellers in Kurdistan and around the world.", icon: <Globe className="text-primary text-3xl" /> },
-    { title: "Great Value", description: "Get competitive prices and regular promotions on millions of products.", icon: <Tags className="text-primary text-3xl" /> },
-]
-
 const INITIAL_LOAD_COUNT = 6;
 const LOAD_MORE_COUNT = 6;
 
@@ -342,24 +335,6 @@ export default function MarketplacePage() {
                   </div>
               )}
           </div>
-        </section>
-
-        {/* Why Choose Us */}
-        <section className="py-12 bg-white">
-            <div className="container mx-auto px-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Why Choose KurdMall?</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {whyChooseUs.map(feature => (
-                        <div key={feature.title} className="text-center">
-                            <div className="w-20 h-20 mx-auto mb-5 bg-accent rounded-full flex items-center justify-center">
-                                {feature.icon}
-                            </div>
-                            <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
-                            <p className="text-muted-foreground">{feature.description}</p>
-                        </div>
-                    ))}
-                </div>
-            </div>
         </section>
 
         {/* App Download Section */}
