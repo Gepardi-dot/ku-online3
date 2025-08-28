@@ -38,10 +38,10 @@ export function AnnouncementBar() {
     return (
         <div className="bg-primary text-primary-foreground">
             <Marquee className="text-sm font-medium">
-                 <span className="mx-4">🔥 Free Shipping on Orders Over 25,000 IQD</span>
-                 <span className="mx-4">💸 New User Coupon: 5,000 IQD Off</span>
-                 <span className="mx-4">☀️ Summer Sale: Up to 70% Off</span>
-                 <span className="mx-4">📱 Download App for Exclusive Deals</span>
+                 <span className="mx-4">Your Best Online Marketplace In Kurdistan</span>
+                 <span className="mx-4">Your Best Online Marketplace In Kurdistan</span>
+                 <span className="mx-4">Your Best Online Marketplace In Kurdistan</span>
+                 <span className="mx-4">Your Best Online Marketplace In Kurdistan</span>
             </Marquee>
         </div>
     )
