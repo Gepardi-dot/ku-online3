@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-import { Search, SendHorizonal, Paperclip, MoreVertical, ArrowLeft } from "lucide-react";
+import { Search, SendHorizonal, Paperclip, MoreVertical, ArrowLeft, MessageSquare } from "lucide-react";
 
 const conversations = [
     { id: 1, name: 'Nishtiman Crafts', lastMessage: 'Is the rug still available?', timestamp: '10:40 AM', avatar: 'https://picsum.photos/seed/seller1/40/40', unread: 1, active: true },
