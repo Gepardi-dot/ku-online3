@@ -233,14 +233,15 @@ const allProducts: Product[] = [
 ];
 
 const categories = [
-    { name: 'Electronics', icon: Smartphone, href: '#' },
-    { name: 'Fashion', icon: Shirt, href: '#' },
-    { name: 'Home', icon: Home, href: '#' },
-    { name: 'Toys', icon: Gamepad2, href: '#' },
-    { name: 'Health', icon: HeartPulse, href: '#' },
-    { name: 'Sports', icon: Bike, href: '#' },
-    { name: 'Books', icon: Book, href: '#' },
-    { name: 'More', icon: MoreHorizontal, href: '#' },
+    { name: 'Electronics', href: '#' },
+    { name: 'Fashion', href: '#' },
+    { name: 'Home & Garden', href: '#' },
+    { name: 'Toys', href: '#' },
+    { name: 'Sports', href: '#' },
+    { name: 'Kids', href: '#' },
+    { name: 'Motors', href: '#' },
+    { name: 'Services', href: '#' },
+    { name: 'Others', href: '#' },
 ]
 
 const INITIAL_LOAD_COUNT = 6;
@@ -297,19 +298,17 @@ export default function MarketplacePage() {
       <div className="flex flex-col">
 
         {/* Categories Section */}
-        <section className="py-12">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-4 md:grid-cols-8 gap-4">
-                    {categories.map((category) => (
-                        <Link href={category.href} key={category.name} className="group flex flex-col items-center justify-center gap-2 p-2 rounded-lg hover:bg-accent transition-colors">
-                           <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
-                             <category.icon className="w-8 h-8 text-primary group-hover:text-white" />
-                           </div>
-                           <span className="font-semibold text-sm text-center text-muted-foreground group-hover:text-primary">{category.name}</span>
-                        </Link>
-                    ))}
-                </div>
+        <section className="py-6 bg-white border-b">
+          <div className="container mx-auto px-4">
+            <div className="flex items-center gap-x-6 gap-y-2 flex-wrap">
+              <h3 className="text-lg font-semibold mr-4">Categories:</h3>
+              {categories.map((category) => (
+                <Link href={category.href} key={category.name} className="font-medium text-muted-foreground hover:text-primary transition-colors">
+                  {category.name}
+                </Link>
+              ))}
             </div>
+          </div>
         </section>
 
         {/* Special Offers */}
@@ -382,5 +381,7 @@ export default function MarketplacePage() {
     </AppLayout>
   );
 }
+
+    
 
     

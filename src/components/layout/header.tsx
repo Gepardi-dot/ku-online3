@@ -59,21 +59,8 @@ export default function AppHeader() {
           </div>
         </div>
       </div>
-      <nav className="hidden md:block border-t border-gray-100">
-        <div className="container mx-auto px-4">
-          <ul className="flex space-x-6 overflow-x-auto py-2 text-sm">
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Electronics</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Fashion</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Home & Garden</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Toys</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Sports</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Kids</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Motors</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Services</a></li>
-              <li><a href="#" className="text-gray-600 hover:text-primary whitespace-nowrap">Others</a></li>
-          </ul>
-        </div>
-      </nav>
     </header>
   );
 }
+
+    
