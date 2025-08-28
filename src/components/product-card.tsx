@@ -35,9 +35,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             </p>
              <div className="flex items-center text-sm text-muted-foreground/90 gap-1">
                 <MapPin className="h-3.5 w-3.5" />
-                <p>{product.location}</p>
+                <p className="text-base font-medium">{product.location}</p>
             </div>
-            <Badge variant="outline" className="font-normal text-sm py-1 px-3">{product.condition}</Badge>
+            <Badge variant="outline" className="font-normal text-lg py-1 px-3">{product.condition}</Badge>
           </div>
 
           <div className="flex items-center gap-2 mt-4 pt-3 border-t">
