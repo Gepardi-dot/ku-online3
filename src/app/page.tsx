@@ -1,11 +1,15 @@
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Mobile, Shirt, Home, Gamepad2 } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
+import Image from 'next/image';
+import Link from 'next/link';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 const products: Product[] = [
+  // Existing products...
   {
     id: '1',
     name: 'Handwoven Kurdish Rug',
@@ -70,100 +74,170 @@ const products: Product[] = [
     description: 'A complete set of organic skincare products, including a cleanser, toner, and moisturizer. Perfect for all skin types.',
     condition: 'New',
   },
-  {
-    id: '5',
-    name: 'Professional Football',
-    price: 45000,
-    currency: 'IQD',
-    imageUrl: 'https://picsum.photos/seed/football/400/300',
-    imageHint: 'soccer ball',
-    seller: {
-      name: 'Sports Direct IQ',
-      avatarUrl: 'https://picsum.photos/seed/seller5/40/40',
-      rating: 4.6,
-    },
-    category: 'Sports & Outdoors',
-    description: 'FIFA-approved professional football. Durable and suitable for all weather conditions.',
-    condition: 'New',
-  },
-  {
-    id: '6',
-    name: 'Antique Copper Pot',
-    price: 95000,
-    currency: 'IQD',
-    imageUrl: 'https://picsum.photos/seed/pot/400/300',
-    imageHint: 'copper pot',
-    seller: {
-      name: 'Kurdistan Treasures',
-      avatarUrl: 'https://picsum.photos/seed/seller6/40/40',
-      rating: 4.8,
-    },
-    category: 'Home & Garden',
-    description: 'A beautiful antique copper pot, perfect as a decorative piece or for traditional cooking.',
-    condition: 'Used - Good',
-  },
-   {
-    id: '7',
-    name: 'Wireless Headphones',
-    price: 120000,
-    currency: 'IQD',
-    imageUrl: 'https://picsum.photos/seed/headphones/400/300',
-    imageHint: 'wireless headphones',
-    seller: {
-      name: 'Erbil Electronics',
-      avatarUrl: 'https://picsum.photos/seed/seller2/40/40',
-      rating: 4.9,
-    },
-    category: 'Electronics',
-    description: 'High-fidelity wireless headphones with noise-cancellation technology. Up to 30 hours of playtime.',
-    condition: 'New',
-  },
-  {
-    id: '8',
-    name: 'Children\'s Story Book (Kurdish)',
-    price: 15000,
-    currency: 'IQD',
-    imageUrl: 'https://picsum.photos/seed/book/400/300',
-    imageHint: 'children book',
-    seller: {
-      name: 'Zanyari Bookstore',
-      avatarUrl: 'https://picsum.photos/seed/seller7/40/40',
-      rating: 4.9,
-    },
-    category: 'Books & Media',
-    description: 'A colorful and engaging story book for children in the Kurdish Sorani dialect.',
-    condition: 'New',
-  },
 ];
 
+const categories = [
+  { name: 'Electronics', description: 'Phones, gadgets & more', icon: <Mobile className="text-primary text-xl" /> },
+  { name: 'Fashion', description: 'Clothing, shoes & accessories', icon: <Shirt className="text-primary text-xl" /> },
+  { name: 'Home & Garden', description: 'Furniture, decor & more', icon: <Home className="text-primary text-xl" /> },
+  { name: 'Toys & Hobbies', description: 'Games, collectibles & more', icon: <Gamepad2 className="text-primary text-xl" /> },
+];
+
+const whyChooseUs = [
+    { title: "Fast Shipping", description: "Enjoy reliable shipping on thousands of products from local sellers.", icon: <Zap className="text-primary text-3xl" /> },
+    { title: "Buyer Protection", description: "Full refund if you don't receive your order or it's not as described.", icon: <ShieldCheck className="text-primary text-3xl" /> },
+    { title: "Local & Global Selection", description: "Discover unique products from sellers in Kurdistan and around the world.", icon: <Globe className="text-primary text-3xl" /> },
+    { title: "Great Value", description: "Get competitive prices and regular promotions on millions of products.", icon: <Tags className="text-primary text-3xl" /> },
+]
 
 export default function MarketplacePage() {
   return (
     <AppLayout>
-      <div className="flex flex-col gap-8">
-        <header className="space-y-4">
-          <h1 className="font-headline text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Welcome to KurdMall
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Discover, buy, and sell goods in the Kurdistan region.
-          </p>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              placeholder="Search for anything... (e.g. 'Kurdish rug')"
-              className="pl-10 text-base"
-            />
+      <div className="flex flex-col">
+        {/* Hero Section */}
+        <section className="bg-gradient-to-r from-primary to-orange-400 text-white">
+          <div className="container mx-auto px-4 py-12 md:py-16">
+            <div className="flex flex-col md:flex-row items-center">
+              <div className="md:w-1/2 mb-8 md:mb-0">
+                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Your Global & Local Shopping Destination</h1>
+                <p className="text-lg mb-6 opacity-90">Discover millions of products at unbeatable prices, right here in Kurdistan.</p>
+                <div className="flex flex-wrap gap-3">
+                  <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
+                    <Link href="#special-offers">Shop Now</Link>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="border-2 border-white text-white hover:bg-white hover:text-primary">
+                    <Link href="#">Download App</Link>
+                  </Button>
+                </div>
+              </div>
+              <div className="md:w-1/2 flex justify-center">
+                <div className="relative w-full max-w-md">
+                    <div className="absolute -top-6 -left-6 w-32 h-32 bg-white opacity-10 rounded-full"></div>
+                    <div className="absolute -bottom-6 -right-6 w-40 h-40 bg-white opacity-10 rounded-full"></div>
+                    <Image src="https://picsum.photos/seed/shopping/772/515" alt="Online Shopping" width={772} height={515} className="rounded-xl shadow-xl relative z-10" data-ai-hint="online shopping" />
+                </div>
+              </div>
+            </div>
           </div>
-        </header>
+        </section>
 
-        <main>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+        {/* Featured Categories */}
+        <section className="py-12 bg-card">
+            <div className="container mx-auto px-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Shop By Category</h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                  {categories.map(category => (
+                     <Link href="#" key={category.name} className="bg-gray-50 dark:bg-gray-900 rounded-xl p-5 text-center transition-transform duration-300 ease-in-out hover:-translate-y-1.5 hover:shadow-lg">
+                        <div className="w-16 h-16 mx-auto mb-3 bg-accent rounded-full flex items-center justify-center">
+                           {category.icon}
+                        </div>
+                        <h3 className="font-semibold">{category.name}</h3>
+                        <p className="text-sm text-muted-foreground mt-1">{category.description}</p>
+                    </Link>
+                  ))}
+                </div>
+            </div>
+        </section>
+
+        {/* Special Offers */}
+        <section id="special-offers" className="py-12 bg-accent">
+          <div className="container mx-auto px-4">
+              <div className="flex items-center justify-between mb-8">
+                  <h2 className="text-2xl md:text-3xl font-bold">Special Offers</h2>
+                  <Button asChild variant="link" className="text-primary font-semibold">
+                      <Link href="#">View All <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                  </Button>
+              </div>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
           </div>
-        </main>
+        </section>
+
+        {/* Why Choose Us */}
+        <section className="py-12 bg-white dark:bg-gray-900">
+            <div className="container mx-auto px-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Why Choose KurdMall?</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    {whyChooseUs.map(feature => (
+                        <div key={feature.title} className="text-center">
+                            <div className="w-20 h-20 mx-auto mb-5 bg-accent rounded-full flex items-center justify-center">
+                                {feature.icon}
+                            </div>
+                            <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
+                            <p className="text-muted-foreground">{feature.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* App Download Section */}
+        <section className="py-12 bg-primary text-white">
+            <div className="container mx-auto px-4">
+                <div className="flex flex-col md:flex-row items-center">
+                    <div className="md:w-1/2 mb-8 md:mb-0">
+                        <h2 className="text-2xl md:text-3xl font-bold mb-4">Shop On The Go</h2>
+                        <p className="mb-6 opacity-90">Download the KurdMall app for exclusive mobile-only deals, faster browsing, and personalized recommendations.</p>
+                         <div className="flex flex-wrap gap-3">
+                            <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
+                                <Link href="#">Google Play</Link>
+                            </Button>
+                            <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
+                                <Link href="#">App Store</Link>
+                            </Button>
+                        </div>
+                    </div>
+                    <div className="md:w-1/2 flex justify-center">
+                        <Image src="https://picsum.photos/seed/app/815/543" alt="Mobile App" width={815} height={543} className="w-full max-w-sm rounded-xl shadow-xl" data-ai-hint="mobile app" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        {/* FAQ Section */}
+        <section className="py-12 bg-gray-50 dark:bg-black">
+            <div className="container mx-auto px-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
+                <div className="max-w-3xl mx-auto">
+                    <Accordion type="single" collapsible className="w-full">
+                      <AccordionItem value="item-1">
+                        <AccordionTrigger>Is KurdMall reliable and safe to use?</AccordionTrigger>
+                        <AccordionContent>
+                         Yes, KurdMall is a trustworthy online shopping platform. We prioritize transaction security with buyer protection policies that ensure you can shop with confidence.
+                        </AccordionContent>
+                      </AccordionItem>
+                      <AccordionItem value="item-2">
+                        <AccordionTrigger>How long does shipping take?</AccordionTrigger>
+                        <AccordionContent>
+                          Delivery times vary depending on the seller's location and your location. Most local deliveries are completed within 1-3 business days.
+                        </AccordionContent>
+                      </AccordionItem>
+                      <AccordionItem value="item-3">
+                        <AccordionTrigger>How can I contact customer service?</AccordionTrigger>
+                        <AccordionContent>
+                          You can reach our customer service team 24/7 through the Help Center on our website or app. We offer live chat and email assistance.
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                </div>
+            </div>
+        </section>
+        
+        {/* Newsletter Section */}
+        <section className="py-12 bg-primary text-white">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated with KurdMall</h2>
+                <p className="mb-6 max-w-2xl mx-auto opacity-90">Subscribe to our newsletter for exclusive deals, new product alerts, and shopping tips.</p>
+                <form className="max-w-md mx-auto flex">
+                    <Input type="email" placeholder="Your email address" className="flex-1 rounded-l-full text-gray-800 focus:outline-none" />
+                    <Button type="submit" className="bg-accent-foreground py-3 px-6 rounded-r-full font-semibold hover:bg-orange-800 transition">Subscribe</Button>
+                </form>
+            </div>
+        </section>
+
       </div>
     </AppLayout>
   );

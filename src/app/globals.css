@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 84 18% 94%;
-    --foreground: 224 71% 4%;
-    --card: 84 18% 98%;
-    --card-foreground: 224 71% 4%;
-    --popover: 84 18% 98%;
-    --popover-foreground: 224 71% 4%;
-    --primary: 88 25% 60%;
-    --primary-foreground: 88 25% 15%;
-    --secondary: 178 18% 88%;
-    --secondary-foreground: 178 18% 20%;
-    --muted: 178 18% 90%;
-    --muted-foreground: 224 71% 25%;
-    --accent: 178 18% 54%;
-    --accent-foreground: 178 18% 98%;
+    --background: 0 0% 98%; /* gray-50 */
+    --foreground: 0 0% 9%; /* gray-900 */
+    --card: 0 0% 100%; /* white */
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+    --primary: 25 100% 50%; /* #FF8000 - brighter orange for better visibility */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%; /* gray-100 */
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%; /* gray-100 */
+    --muted-foreground: 0 0% 45.1%; /* gray-500 */
+    --accent: 30 100% 95%; /* aliexpress-light #FFF0E5 */
+    --accent-foreground: 25 100% 45%; /* aliexpress-dark #E05A00 */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --border: 88 15% 85%;
-    --input: 88 15% 88%;
-    --ring: 88 25% 60%;
-    --radius: 0.5rem;
+    --border: 0 0% 89.8%; /* gray-200 */
+    --input: 0 0% 83.1%; /* gray-300 */
+    --ring: 25 100% 50%;
+    --radius: 0.75rem; /* rounded-xl */
   }
 
   .dark {
-    --background: 224 10% 10%;
+    --background: 0 0% 9%; /* gray-900 */
     --foreground: 0 0% 98%;
-    --card: 224 10% 12%;
+    --card: 0 0% 12.2%; /* near black */
     --card-foreground: 0 0% 98%;
-    --popover: 224 10% 12%;
+    --popover: 0 0% 12.2%;
     --popover-foreground: 0 0% 98%;
-    --primary: 88 25% 60%;
-    --primary-foreground: 88 25% 15%;
-    --secondary: 178 18% 20%;
+    --primary: 25 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 14.9%; /* gray-800 */
     --secondary-foreground: 0 0% 98%;
-    --muted: 178 18% 15%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 178 18% 54%;
-    --accent-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 62.7%;
+    --accent: 30 100% 15%;
+    --accent-foreground: 30 100% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 178 18% 25%;
-    --input: 178 18% 20%;
-    --ring: 88 25% 60%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 25 100% 50%;
   }
 }
 
@@ -56,4 +56,18 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.accordion-input:checked ~ .accordion-content {
+    max-height: 500px;
+}
+
+.accordion-input:checked + .accordion-label .accordion-arrow {
+    transform: rotate(180deg);
 }

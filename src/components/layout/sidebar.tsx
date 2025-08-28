@@ -3,135 +3,109 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  SidebarContent,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarGroup,
-  SidebarGroupLabel,
-  SidebarGroupContent,
-} from '@/components/ui/sidebar';
-import {
   Home,
-  LayoutGrid,
-  Heart,
   MessageSquare,
+  Heart,
   User,
   Settings,
-  Star,
   PackagePlus,
-  Truck,
+  ChevronRight,
+  Zap,
+  Shirt,
+  Armchair,
+  Sparkles,
+  HeartPulse,
+  Bike,
+  Book,
+  MoreHorizontal
 } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { cn } from '@/lib/utils';
+import React from 'react';
 
 const categories = [
-  { name: 'Electronics', icon: Home },
-  { name: 'Home & Garden', icon: Home },
-  { name: 'Fashion', icon: Home },
-  { name: 'Health & Beauty', icon: Home },
-  { name: 'Sports & Outdoors', icon: Home },
-  { name: 'Toys & Games', icon: Home },
-  { name: 'Books & Media', icon: Home },
-  { name: 'Other', icon: Home },
+  { name: 'Electronics', icon: Zap },
+  { name: 'Fashion', icon: Shirt },
+  { name: 'Home & Garden', icon: Armchair },
+  { name: 'Toys & Hobbies', icon: Sparkles },
+  { name: 'Beauty & Health', icon: HeartPulse },
+  { name: 'Sports & Outdoors', icon: Bike },
+  { name: 'Books & Media', icon: Book },
+  { name: 'Other', icon: MoreHorizontal },
 ];
 
 export default function AppSidebar() {
   const pathname = usePathname();
+  const [isCategoriesOpen, setIsCategoriesOpen] = React.useState(true);
 
   const isActive = (path: string) => pathname === path;
 
   return (
-    <>
-      <SidebarHeader>
+    <div className="flex flex-col h-full bg-background text-foreground">
+      <header className="p-4 border-b">
         <Link href="/" className="flex items-center gap-2 font-semibold font-headline">
-          <Icons.logo className="h-6 w-6" />
-          <span className="text-lg">KurdMall</span>
+          <Icons.logo className="h-8 w-8" />
+          <span className="text-xl font-bold text-primary">KurdMall</span>
         </Link>
-      </SidebarHeader>
+      </header>
 
-      <SidebarContent className="p-2">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive('/')}>
-              <Link href="/">
-                <Home />
-                Marketplace
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <nav className="space-y-1">
+          <Link href="/" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent", isActive('/') ? "bg-accent text-primary" : "text-muted-foreground")}>
+            <Home className="h-5 w-5" />
+            Marketplace
+          </Link>
+          <Link href="/messages" className={cn("flex items-center gap-3 rounded-lg px-3 py-2 transition-all hover:bg-accent", isActive('/messages') ? "bg-accent text-primary" : "text-muted-foreground")}>
+            <MessageSquare className="h-5 w-5" />
+            Messages
+            <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">3</Badge>
+          </Link>
+          <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-accent">
+            <Heart className="h-5 w-5" />
+            Favorites
+          </Link>
+        </nav>
+        
+        <Separator />
+
+        <Collapsible open={isCategoriesOpen} onOpenChange={setIsCategoriesOpen}>
+          <CollapsibleTrigger className="flex items-center justify-between w-full p-2 font-semibold text-lg">
+            Categories
+            <ChevronRight className={cn("h-5 w-5 transition-transform", isCategoriesOpen && "rotate-90")} />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-1 pl-4">
+            {categories.map((category) => (
+              <Link key={category.name} href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-accent">
+                <category.icon className="h-4 w-4" />
+                {category.name}
               </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive('/messages')}>
-              <Link href="/messages">
-                <MessageSquare />
-                Messages
-                <Badge variant="secondary" className="ml-auto">3</Badge>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-           <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive('/favorites')}>
-              <Link href="#">
-                <Heart />
-                Favorites
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+            ))}
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
 
-        <Separator className="my-4" />
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Categories</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {categories.map((category, index) => (
-                <SidebarMenuItem key={index}>
-                  <SidebarMenuButton asChild size="sm">
-                    <Link href="#">
-                      {category.name}
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-
-      <SidebarFooter className="p-2">
-        <div className="sm:hidden mb-2">
-          <Button size="sm" asChild className="w-full">
+      <footer className="p-4 mt-auto border-t">
+         <Button asChild className="w-full mb-4 bg-primary text-primary-foreground hover:bg-primary/90">
             <Link href="/create-listing">
               <PackagePlus className="mr-2 h-4 w-4" />
               Create Listing
             </Link>
           </Button>
-        </div>
-        <Separator className="mb-2" />
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive('/profile')}>
-              <Link href="#">
-                <User />
-                My Account
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-          <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={isActive('/settings')}>
-              <Link href="#">
-                <Settings />
-                Settings
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarFooter>
-    </>
+        <nav className="space-y-1">
+          <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-accent">
+            <User className="h-5 w-5" />
+            My Account
+          </Link>
+          <Link href="#" className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-accent">
+            <Settings className="h-5 w-5" />
+            Settings
+          </Link>
+        </nav>
+      </footer>
+    </div>
   );
 }
