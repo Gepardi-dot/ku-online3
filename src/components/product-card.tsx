@@ -33,7 +33,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             <p className="font-bold text-primary text-lg">
               {new Intl.NumberFormat('en-IQ', { style: 'currency', currency: 'IQD', minimumFractionDigits: 0 }).format(product.price)}
             </p>
-             <div className="flex items-center text-xs text-muted-foreground/90 gap-1">
+             <div className="flex items-center text-sm text-muted-foreground/90 gap-1">
                 <MapPin className="h-3.5 w-3.5" />
                 <p>{product.location}</p>
             </div>
