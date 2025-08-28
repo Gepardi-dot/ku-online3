@@ -7,7 +7,7 @@ import AppFooter from '@/components/layout/footer';
 import MobileNav from '@/components/layout/mobile-nav';
 
 export const metadata: Metadata = {
-  title: 'KurdMall - Your Global Online Shopping Destination',
+  title: 'KU-ONLINE - Your Global Online Shopping Destination',
   description: 'A multi-vendor, AI-enhanced local marketplace for the Kurdistan region, inspired by AliExpress.',
 };
 

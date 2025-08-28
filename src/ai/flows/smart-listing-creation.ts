@@ -46,7 +46,7 @@ Product Image: {{media url=photoDataUri}}
 Title: {{{title}}}
 Category: {{{category}}}
 
-Make sure the product category is from the kurdMall categories, which include:
+Make sure the product category is from the KU-ONLINE categories, which include:
 - Electronics
 - Home & Garden
 - Fashion

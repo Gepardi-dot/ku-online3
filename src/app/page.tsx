@@ -343,7 +343,7 @@ export default function MarketplacePage() {
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="md:w-1/2 mb-8 md:mb-0">
                         <h2 className="text-2xl md:text-3xl font-bold mb-4">Shop On The Go</h2>
-                        <p className="mb-6 opacity-90">Download the KurdMall app for exclusive mobile-only deals, faster browsing, and personalized recommendations.</p>
+                        <p className="mb-6 opacity-90">Download the KU-ONLINE app for exclusive mobile-only deals, faster browsing, and personalized recommendations.</p>
                          <div className="flex flex-wrap gap-3">
                             <Button asChild size="lg" className="bg-white text-primary hover:bg-gray-100">
                                 <Link href="#">Google Play</Link>
@@ -367,9 +367,9 @@ export default function MarketplacePage() {
                 <div className="max-w-3xl mx-auto">
                     <Accordion type="single" collapsible className="w-full">
                       <AccordionItem value="item-1">
-                        <AccordionTrigger>Is KurdMall reliable and safe to use?</AccordionTrigger>
+                        <AccordionTrigger>Is KU-ONLINE reliable and safe to use?</AccordionTrigger>
                         <AccordionContent>
-                         Yes, KurdMall is a trustworthy online shopping platform. We prioritize transaction security with buyer protection policies that ensure you can shop with confidence.
+                         Yes, KU-ONLINE is a trustworthy online shopping platform. We prioritize transaction security with buyer protection policies that ensure you can shop with confidence.
                         </AccordionContent>
                       </AccordionItem>
                       <AccordionItem value="item-2">
@@ -392,7 +392,7 @@ export default function MarketplacePage() {
         {/* Newsletter Section */}
         <section className="py-12 bg-primary text-white">
             <div className="container mx-auto px-4 text-center">
-                <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated with KurdMall</h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated with KU-ONLINE</h2>
                 <p className="mb-6 max-w-2xl mx-auto opacity-90">Subscribe to our newsletter for exclusive deals, new product alerts, and shopping tips.</p>
                 <form className="max-w-md mx-auto flex">
                     <Input type="email" placeholder="Your email address" className="flex-1 rounded-l-full text-gray-800 focus:outline-none" />

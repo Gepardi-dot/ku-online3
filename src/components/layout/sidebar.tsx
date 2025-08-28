@@ -49,7 +49,7 @@ export default function AppSidebar() {
       <header className="p-4 border-b">
         <Link href="/" className="flex items-center gap-2 font-semibold font-headline">
           <Icons.logo className="h-8 w-8" />
-          <span className="text-xl font-bold text-primary">KurdMall</span>
+          <span className="text-xl font-bold text-primary">KU-ONLINE</span>
         </Link>
       </header>
 
