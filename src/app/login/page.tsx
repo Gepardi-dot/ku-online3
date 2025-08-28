@@ -8,7 +8,7 @@ export default function LoginPage() {
       <div className="absolute top-4 left-4">
         <Link href="/" className="flex items-center gap-2 font-semibold font-headline text-foreground">
           <Icons.logo className="h-6 w-6" />
-          <span className="text-lg">KurdMall</span>
+          <span className="text-lg">KU-ONLINE</span>
         </Link>
       </div>
       <LoginForm />
