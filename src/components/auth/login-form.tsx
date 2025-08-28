@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ export function LoginForm() {
     <Card className="w-full max-w-sm">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold font-headline">Login</CardTitle>
-        <CardDescription>Enter your email below to login to your account</CardDescription>
+        <CardDescription>Enter your phone number below to login to your account</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
         <Button variant="outline" className="w-full">
@@ -35,8 +36,8 @@ export function LoginForm() {
           </div>
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
+          <Label htmlFor="phone">Phone Number</Label>
+          <Input id="phone" type="tel" placeholder="+964 123 456 7890" />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
