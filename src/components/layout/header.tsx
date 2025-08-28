@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, User, Heart, ShoppingCart, Menu } from 'lucide-react';
+import { Search, User, Heart, Bell, Menu } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import AppSidebar from './sidebar';
@@ -48,16 +48,16 @@ export default function AppHeader() {
           <div className="flex items-center space-x-2 sm:space-x-4">
             <Link href="/login" className="flex items-center text-gray-600 hover:text-primary">
               <User className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Account</span>
+              <span className="text-sm ml-1">Account</span>
             </Link>
             <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
               <Heart className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Wishlist</span>
+              <span className="text-sm ml-1">Wishlist</span>
             </Link>
-            <Link href="/messages" className="text-gray-600 hover:text-primary relative flex items-center">
-              <ShoppingCart className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Cart</span>
-              <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+            <Link href="#" className="text-gray-600 hover:text-primary relative flex items-center">
+                <Bell className="h-6 w-6" />
+                <span className="text-sm ml-1">Notifications</span>
+                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
             </Link>
           </div>
         </div>
