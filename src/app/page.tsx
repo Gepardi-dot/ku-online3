@@ -71,11 +71,10 @@ export default function MarketplacePage() {
     q = query(q, where('price', '>=', priceRange[0]));
     q = query(q, where('price', '<=', priceRange[1]));
 
-    const [sortField, sortDirection] = sortBy.split('_');
-    q = query(q, orderBy(sortField, sortDirection as 'asc' | 'desc'));
+    q = query(q, orderBy('createdAt', 'desc'));
     
     return q;
-  }, [sortBy, condition, city, priceRange]);
+  }, [condition, city, priceRange]);
   
   const fetchProducts = useCallback(async (isInitialLoad = false) => {
     if (isFetching.current) return;
@@ -228,14 +227,12 @@ export default function MarketplacePage() {
                                 </DropdownMenuContent>
                             </DropdownMenu>
 
-                            <Select value={sortBy} onValueChange={setSortBy}>
+                             <Select value={sortBy} onValueChange={setSortBy} disabled>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Sort By" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="createdAt_desc">Sort by: Newest</SelectItem>
-                                    <SelectItem value="price_asc">Sort by: Price (Low-High)</SelectItem>
-                                    <SelectItem value="price_desc">Sort by: Price (High-Low)</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
