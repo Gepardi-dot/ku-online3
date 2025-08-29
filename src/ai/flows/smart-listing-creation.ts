@@ -56,9 +56,6 @@ Make sure the product category is from the KU-ONLINE categories, which include:
 - Books & Media
 - Other
 `,
-  config: {
-    model: 'googleai/gemini-2.5-flash',
-  },
 });
 
 const smartListingCreationFlow = ai.defineFlow(
