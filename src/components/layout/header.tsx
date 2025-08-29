@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, User, Heart, Bell, Filter, LogOut } from 'lucide-react';
+import { Search, User, Heart, Bell, Filter, LogOut, PackagePlus } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import LanguageSwitcher from '../language-switcher';
 import {
@@ -90,6 +90,12 @@ export default function AppHeader() {
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
+             <Button asChild className="hidden md:flex">
+                <Link href="/create-listing">
+                  <PackagePlus className="mr-2 h-4 w-4" />
+                  Create Listing
+                </Link>
+              </Button>
             <LanguageSwitcher />
 
             {!isLoading && user ? (
