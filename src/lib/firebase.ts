@@ -1,7 +1,15 @@
 import {initializeApp, getApp, getApps} from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
-const firebaseConfig = JSON.parse(process.env.NEXT_PUBLIC_FIREBASE_WEBAPP_CONFIG!);
+const firebaseConfig = {
+  "apiKey": "AIzaSyA6cfCjR3fXwjoN10AVeM5j36WtDENP3Cc",
+  "appId": "1:348003227476:web:5a2ad7e909f9483c3adac1",
+  "authDomain": "ku-online-fpva3.firebaseapp.com",
+  "databaseURL": "https://ku-online-fpva3-default-rtdb.europe-west1.firebasedatabase.app",
+  "messagingSenderId": "348003227476",
+  "projectId": "ku-online-fpva3",
+  "storageBucket": "ku-online-fpva3.firebasestorage.app"
+};
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
