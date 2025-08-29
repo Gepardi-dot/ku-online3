@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,42 +11,53 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
+import { signInWithGoogle } from "@/lib/auth";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 export function SignupForm() {
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const handleGoogleSignUp = async () => {
+    setIsSigningUp(true);
+    try {
+      await signInWithGoogle();
+      router.push("/");
+      toast({
+        title: "Account Created",
+        description: "You have successfully created an account.",
+      });
+    } catch (error) {
+      console.error("Google Sign-Up failed:", error);
+      toast({
+        variant: "destructive",
+        title: "Sign-Up Failed",
+        description: "Could not sign up with Google. Please try again.",
+      });
+    } finally {
+      setIsSigningUp(false);
+    }
+  };
+
+
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="space-y-1 text-center">
         <CardTitle className="text-2xl font-bold font-headline">Create an account</CardTitle>
-        <CardDescription>Enter your phone number below to create your account</CardDescription>
+        <CardDescription>Sign up to start selling and buying</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <Button variant="outline" className="w-full">
-          <Icons.google className="mr-2 h-4 w-4" />
-          Sign up with Google
+        <Button variant="outline" className="w-full" onClick={handleGoogleSignUp} disabled={isSigningUp}>
+          {isSigningUp ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Icons.google className="mr-2 h-4 w-4" />}
+          {isSigningUp ? "Signing up..." : "Sign up with Google"}
         </Button>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
-          </div>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="phone">Phone Number</Label>
-          <Input id="phone" type="tel" placeholder="+964 123 456 7890" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" />
-        </div>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">
-        <Button className="w-full">Create account</Button>
         <p className="text-center text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link href="/login" className="underline hover:text-primary">

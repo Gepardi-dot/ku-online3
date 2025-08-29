@@ -1,5 +1,6 @@
 import {initializeApp, getApp, getApps} from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   "apiKey": "AIzaSyA6cfCjR3fXwjoN10AVeM5j36WtDENP3Cc",
@@ -11,8 +12,10 @@ const firebaseConfig = {
   "storageBucket": "ku-online-fpva3.firebasestorage.app"
 };
 
+
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-export { app, db };
+export { app, db, auth };

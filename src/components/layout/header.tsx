@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, User, Heart, Bell, Filter } from 'lucide-react';
+import { Search, User, Heart, Bell, Filter, LogOut } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import LanguageSwitcher from '../language-switcher';
 import {
@@ -12,11 +12,37 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
 import React from 'react';
+import { useAuth, signOutUser } from '@/hooks/use-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useToast } from '@/hooks/use-toast';
+import { useRouter } from 'next/navigation';
 
 export default function AppHeader() {
   const [city, setCity] = React.useState("all");
+  const { user, isLoading } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOutUser();
+      router.push('/');
+      toast({
+        title: "Signed Out",
+        description: "You have been successfully signed out.",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Sign-Out Failed",
+        description: "Could not sign out. Please try again.",
+      });
+    }
+  };
+
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/80 shadow-sm backdrop-blur-md">
@@ -65,10 +91,40 @@ export default function AppHeader() {
 
           <div className="flex items-center space-x-2 sm:space-x-4">
             <LanguageSwitcher />
-            <Link href="/login" className="flex items-center text-gray-600 hover:text-primary">
-              <User className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Account</span>
-            </Link>
+
+            {!isLoading && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={user.photoURL!} alt={user.displayName!} />
+                      <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                      <p className="text-xs leading-none text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+               <Link href="/login" className="flex items-center text-gray-600 hover:text-primary">
+                <User className="h-6 w-6" />
+                <span className="text-sm ml-1 hidden sm:inline">Account</span>
+              </Link>
+            )}
+            
             <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
               <Heart className="h-6 w-6" />
               <span className="text-sm ml-1 hidden sm:inline">Wishlist</span>
