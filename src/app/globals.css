@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 0 0% 98%; /* gray-50 */
+    --background: 80 13% 94%; /* very light olive #F0F2EA */
     --foreground: 0 0% 9%; /* gray-900 */
     --card: 0 0% 100%; /* white */
     --card-foreground: 0 0% 9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 9%;
-    --primary: 25 100% 50%; /* #FF8000 - brighter orange for better visibility */
+    --primary: 80 20% 60%; /* light olive #A2B38B */
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96.1%; /* gray-100 */
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%; /* gray-100 */
     --muted-foreground: 0 0% 45.1%; /* gray-500 */
-    --accent: 30 100% 95%; /* aliexpress-light #FFF0E5 */
-    --accent-foreground: 25 100% 45%; /* aliexpress-dark #E05A00 */
+    --accent: 178 20% 54%; /* desaturated cyan #73A3A1 */
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%; /* gray-200 */
     --input: 0 0% 83.1%; /* gray-300 */
-    --ring: 25 100% 50%;
+    --ring: 80 20% 60%;
     --radius: 0.75rem; /* rounded-xl */
   }
 }
