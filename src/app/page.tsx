@@ -52,7 +52,6 @@ export default function MarketplacePage() {
   const [sortBy, setSortBy] = useState('createdAt_desc');
   const [condition, setCondition] = useState('all');
   const [city, setCity] = useState('all');
-  const [priceRange, setPriceRange] = useState([0, 2000000]);
   const [showFilters, setShowFilters] = useState(false);
   
   const observer = useRef<IntersectionObserver>();
@@ -68,13 +67,10 @@ export default function MarketplacePage() {
       q = query(q, where('location', '==', city));
     }
 
-    q = query(q, where('price', '>=', priceRange[0]));
-    q = query(q, where('price', '<=', priceRange[1]));
-
     q = query(q, orderBy('createdAt', 'desc'));
     
     return q;
-  }, [condition, city, priceRange]);
+  }, [condition, city]);
   
   const fetchProducts = useCallback(async (isInitialLoad = false) => {
     if (isFetching.current) return;
@@ -117,7 +113,7 @@ export default function MarketplacePage() {
     setHasMore(true);
     fetchProducts(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy, condition, city, priceRange]);
+  }, [sortBy, condition, city]);
 
 
   const lastProductElementRef = useCallback((node: HTMLDivElement) => {
@@ -179,7 +175,7 @@ export default function MarketplacePage() {
                      'hidden': !showFilters
                 })}>
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                             <Select value={condition} onValueChange={setCondition}>
                                 <SelectTrigger className="w-full">
                                     <SelectValue placeholder="Condition" />
@@ -205,27 +201,6 @@ export default function MarketplacePage() {
                                     <SelectItem value="Zaxo">Zaxo</SelectItem>
                                 </SelectContent>
                             </Select>
-
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button variant="outline" className="w-full justify-start font-normal">
-                                        <SlidersHorizontal className="mr-2 h-4 w-4" /> Price Range
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent className="w-64 p-4" align="start">
-                                    <label className="block text-sm font-medium mb-2">Price Range (IQD)</label>
-                                    <Slider
-                                        defaultValue={[0, 2000000]}
-                                        max={2000000}
-                                        step={10000}
-                                        onValueChange={(value) => setPriceRange(value)}
-                                    />
-                                    <div className="flex justify-between text-xs mt-2 text-muted-foreground">
-                                        <span>{new Intl.NumberFormat('en-IQ').format(priceRange[0])}</span>
-                                        <span>{new Intl.NumberFormat('en-IQ').format(priceRange[1])}</span>
-                                    </div>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
 
                              <Select value={sortBy} onValueChange={setSortBy} disabled>
                                 <SelectTrigger className="w-full">
@@ -321,3 +296,5 @@ export default function MarketplacePage() {
     </AppLayout>
   );
 }
+
+    
