@@ -1,3 +1,4 @@
+
 export interface Seller {
   name: string;
   avatarUrl: string;
@@ -12,9 +13,10 @@ export interface Product {
   imageUrl: string;
   imageHint: string;
   seller: Seller;
+  sellerId: string;
   category: string;
   description: string;
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
-  createdAt: string; // New field for upload timestamp
+  createdAt: string; // This will be a server timestamp
   location: string;
 }

@@ -1,6 +1,7 @@
 import {initializeApp, getApp, getApps} from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
   "apiKey": "AIzaSyA6cfCjR3fXwjoN10AVeM5j36WtDENP3Cc",
@@ -9,16 +10,14 @@ const firebaseConfig = {
   "databaseURL": "https://ku-online-fpva3-default-rtdb.europe-west1.firebasedatabase.app",
   "messagingSenderId": "348003227476",
   "projectId": "ku-online-fpva3",
-  "storageBucket": "ku-online-fpva3.firebasestorage.app"
+  "storageBucket": "ku-online-fpva3.appspot.com"
 };
 
 
 // Initialize Firebase
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
-const auth = getAuth(app, {
-    authDomain: firebaseConfig.authDomain,
-    projectId: firebaseConfig.projectId,
-});
+const auth = getAuth(app);
+const storage = getStorage(app);
 
-export { app, db, auth };
+export { app, db, auth, storage };
