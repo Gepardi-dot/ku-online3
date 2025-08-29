@@ -40,6 +40,9 @@ const prompt = ai.definePrompt({
   Text to Translate: {{{text}}}
 
   Translated Text:`, // Keep as similar format as possible to minimize translation errors.
+  config: {
+    model: 'googleai/gemini-2.5-flash',
+  },
 });
 
 const translateTextFlow = ai.defineFlow(

@@ -55,6 +55,9 @@ const prompt = ai.definePrompt({
   Return a list of product names that are similar to the above item.  Do not include the item itself in the recommendations.
   Do not include any introductory or concluding sentences.  Just the list of product names.
   `,
+  config: {
+    model: 'googleai/gemini-2.5-flash',
+  },
 });
 
 const similarItemRecommendationsFlow = ai.defineFlow(
