@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { formatDistanceToNow } from 'date-fns';
-import AppLayout from '@/components/layout/app-layout';
 
 interface ProductDetailClientProps {
   product: Product;
