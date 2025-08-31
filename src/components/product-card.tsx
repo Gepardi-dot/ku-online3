@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 
 interface ProductCardProps {
   product: Product;
@@ -27,6 +28,15 @@ export default function ProductCard({ product }: ProductCardProps) {
         description: `${product.name} has been added to your wishlist.`,
     })
   }
+
+  // Ensure createdAt is a Date object before formatting
+  const createdAtDate = typeof product.createdAt === 'string' 
+    ? new Date(product.createdAt) 
+    : (product.createdAt as any)?.toDate 
+      ? (product.createdAt as any).toDate() 
+      : new Date();
+      
+  const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true });
 
   return (
     <Link href={`/products/${product.id}`} className="group block">
@@ -65,7 +75,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
             <div className="flex items-center text-xs text-muted-foreground/90 gap-1">
                 <Calendar className="h-3 w-3" />
-                <p>{product.createdAt}</p>
+                <p>{timeAgo}</p>
             </div>
             <Badge variant="outline" className="font-normal text-xs py-0.5 px-2">{product.condition}</Badge>
           </div>
