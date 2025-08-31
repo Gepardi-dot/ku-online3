@@ -170,7 +170,7 @@ export function CreateListingForm() {
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
         if (value !== null && value !== undefined) {
-            formData.append(key, value instanceof File ? value : String(value));
+            formData.append(key, value as string | Blob);
         }
     });
 
