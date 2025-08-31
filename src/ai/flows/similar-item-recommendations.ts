@@ -56,7 +56,7 @@ const prompt = ai.definePrompt({
   Do not include any introductory or concluding sentences.  Just the list of product names.
   `,
   config: {
-    model: 'googleai/gemini-2.5-flash',
+    model: 'googleai/gemini-pro',
   },
 });
 
