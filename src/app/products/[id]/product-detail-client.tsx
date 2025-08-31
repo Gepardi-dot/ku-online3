@@ -62,7 +62,12 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     }
   }
 
-  const timeAgo = product.createdAt?.toDate ? formatDistanceToNow(product.createdAt.toDate(), { addSuffix: true }) : 'a while ago';
+  const createdAtDate = typeof product.createdAt === 'string'
+    ? new Date(product.createdAt)
+    : (product.createdAt as any)?.toDate
+      ? (product.createdAt as any).toDate()
+      : new Date();
+  const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true });
 
   return (
       <div className="container mx-auto px-4 py-8">
