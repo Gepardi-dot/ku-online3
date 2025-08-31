@@ -2,10 +2,8 @@
 'use server';
 
 import { z } from 'zod';
-import { auth, db, storage } from '@/lib/firebase-admin'; // Switch to admin SDK for server actions
+import { auth, db, storage } from '@/lib/firebase-admin';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { ref, uploadString, getDownloadURL } from 'firebase/storage';
-import { smartListingCreation } from '@/ai/flows/smart-listing-creation';
 
 const formSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters.'),
@@ -57,13 +55,28 @@ export async function createListingAction(formData: FormData) {
   const { image, ...productData } = validatedFields.data;
 
   try {
-    // 3. Upload image to Firebase Storage
-    const storageRef = ref(
-      storage,
-      `products/${Date.now()}-${Math.random().toString(36).substring(7)}`
-    );
-    const uploadResult = await uploadString(storageRef, image, 'data_url');
-    const imageUrl = await getDownloadURL(uploadResult.ref);
+    // 3. Upload image to Firebase Storage using Admin SDK
+    const bucket = storage.bucket();
+    const fileName = `products/${Date.now()}-${Math.random().toString(36).substring(7)}`;
+    const file = bucket.file(fileName);
+
+    // Convert data URL to buffer
+    const base64EncodedImageString = image.replace(/^data:image\/\w+;base64,/, '');
+    const imageBuffer = Buffer.from(base64EncodedImageString, 'base64');
+    
+    const imageMimeType = image.match(/data:(image\/[^;]+);/)?.[1] || 'image/jpeg';
+
+    await file.save(imageBuffer, {
+      metadata: {
+        contentType: imageMimeType,
+      },
+    });
+
+    const imageUrl = await file.getSignedUrl({
+        action: 'read',
+        expires: '03-09-2491' // A far-future expiration date
+    }).then(urls => urls[0]);
+
 
     // 4. Add product data to Firestore
     const docRef = await addDoc(collection(db, 'products'), {
@@ -95,7 +108,7 @@ export async function generateAIAssistance(photoDataUri: string, title?: string,
     }
     
     try {
-        const result = await smartListingCreation({
+        const result = await (await import('@/ai/flows/smart-listing-creation')).smartListingCreation({
             photoDataUri,
             title,
             category,
