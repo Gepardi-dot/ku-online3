@@ -12,10 +12,21 @@ import { Button } from './ui/button';
 import { useToast } from '@/hooks/use-toast';
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
+import type { Timestamp } from 'firebase/firestore';
 
 interface ProductCardProps {
   product: Product;
 }
+
+// Helper function to safely convert Firestore Timestamp to Date
+function toDate(timestamp: Timestamp | Date): Date {
+    if (timestamp instanceof Date) {
+        return timestamp;
+    }
+    // Assumes it's a Firestore Timestamp
+    return timestamp.toDate();
+}
+
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { toast } = useToast();
@@ -28,15 +39,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         description: `${product.name} has been added to your wishlist.`,
     })
   }
-
-  // Ensure createdAt is a Date object before formatting
-  const createdAtDate = typeof product.createdAt === 'string' 
-    ? new Date(product.createdAt) 
-    : (product.createdAt as any)?.toDate 
-      ? (product.createdAt as any).toDate() 
-      : new Date();
-      
-  const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true });
+  
+  const timeAgo = product.createdAt ? formatDistanceToNow(toDate(product.createdAt), { addSuffix: true }) : 'a while ago';
 
   return (
     <Link href={`/products/${product.id}`} className="group block">
