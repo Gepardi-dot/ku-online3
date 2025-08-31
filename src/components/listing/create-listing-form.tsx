@@ -5,10 +5,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { smartListingCreation } from "@/ai/flows/smart-listing-creation";
-import { db, storage } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { ref, uploadString, getDownloadURL } from "firebase/storage";
+import { createListingAction, generateAIAssistance } from "@/app/create-listing/actions";
+import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/use-auth";
 
 import { Button } from "@/components/ui/button";
@@ -114,49 +112,46 @@ export function CreateListingForm() {
     }
 
     setIsGenerating(true);
-    try {
-      const result = await smartListingCreation({
-        photoDataUri: imageDataUri,
-        title: form.getValues("title"),
-        category: form.getValues("category"),
-      });
+    const result = await generateAIAssistance(
+        imageDataUri,
+        form.getValues("title"),
+        form.getValues("category")
+    );
+    setIsGenerating(false);
 
-      if (result) {
-        if(result.suggestedCategory && !form.getValues('category')) {
-          const matchingCategory = categories.find(c => c.toLowerCase() === result.suggestedCategory.toLowerCase()) || "Other";
+    if (result.success && result.data) {
+        const { data } = result;
+        if(data.suggestedCategory && !form.getValues('category')) {
+          const matchingCategory = categories.find(c => c.toLowerCase() === data.suggestedCategory.toLowerCase()) || "Other";
           form.setValue("category", matchingCategory, { shouldValidate: true });
         }
 
-        if(result.suggestedDescription && !form.getValues('description')) {
-          form.setValue("description", result.suggestedDescription, { shouldValidate: true });
+        if(data.suggestedDescription && !form.getValues('description')) {
+          form.setValue("description", data.suggestedDescription, { shouldValidate: true });
         }
        
-        if(result.suggestedTags && result.suggestedTags.length > 0 && !form.getValues('tags')) {
-           form.setValue("tags", result.suggestedTags.join(", "), { shouldValidate: true });
+        if(data.suggestedTags && data.suggestedTags.length > 0 && !form.getValues('tags')) {
+           form.setValue("tags", data.suggestedTags.join(", "), { shouldValidate: true });
         }
 
-        if(result.suggestedPrice && form.getValues('price') === 0) {
-            form.setValue("price", result.suggestedPrice, { shouldValidate: true });
+        if(data.suggestedPrice && form.getValues('price') === 0) {
+            form.setValue("price", data.suggestedPrice, { shouldValidate: true });
         }
 
-        if (!form.getValues('title') && result.suggestedCategory) {
-            form.setValue('title', `A ${result.suggestedCategory.toLowerCase()} item`, { shouldValidate: true });
+        if (!form.getValues('title') && data.suggestedCategory) {
+            form.setValue('title', `A ${data.suggestedCategory.toLowerCase()} item`, { shouldValidate: true });
         }
 
         toast({
           title: "AI Assistant Complete",
           description: "We've filled in some details for you.",
         });
-      }
-    } catch (error) {
-      console.error("AI generation failed:", error);
-      toast({
-        variant: "destructive",
-        title: "AI Assistant Failed",
-        description: "Could not generate suggestions. Please try again.",
-      });
-    } finally {
-      setIsGenerating(false);
+    } else {
+         toast({
+            variant: "destructive",
+            title: "AI Assistant Failed",
+            description: result.error || "Could not generate suggestions. Please try again.",
+        });
     }
   };
   
@@ -171,49 +166,38 @@ export function CreateListingForm() {
     }
 
     setIsSubmitting(true);
-    try {
-        // 1. Upload image to Firebase Storage
-        const storageRef = ref(storage, `products/${Date.now()}-${Math.random().toString(36).substring(7)}`);
-        const uploadResult = await uploadString(storageRef, data.image, 'data_url');
-        const imageUrl = await getDownloadURL(uploadResult.ref);
 
-        // 2. Add product data to Firestore
-        const docRef = await addDoc(collection(db, "products"), {
-            name: data.title,
-            category: data.category,
-            price: data.price,
-            description: data.description,
-            tags: data.tags?.split(',').map(tag => tag.trim()).filter(tag => tag),
-            condition: data.condition,
-            location: data.location,
-            currency: 'IQD',
-            imageUrl,
-            imageHint: '',
-            seller: {
-                name: user.displayName,
-                avatarUrl: user.photoURL,
-                rating: 0, // Initial rating
-            },
-            sellerId: user.uid,
-            createdAt: serverTimestamp(),
-        });
-        
-        toast({
-            title: "Listing Created!",
-            description: "Your new item is now live on the marketplace."
-        });
-        
-        router.push(`/products/${docRef.id}`);
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+        if (value !== null && value !== undefined) {
+            formData.append(key, value instanceof File ? value : String(value));
+        }
+    });
 
-    } catch (error) {
-        console.error("Error creating listing:", error);
-        toast({
-            variant: "destructive",
-            title: "Listing Creation Failed",
-            description: "Something went wrong. Please try again."
-        });
-    } finally {
-        setIsSubmitting(false);
+    const idToken = await auth.currentUser?.getIdToken();
+    if (!idToken) {
+         toast({ variant: "destructive", title: "Authentication Error", description: "Could not verify your session. Please sign in again." });
+         setIsSubmitting(false);
+         return;
+    }
+    formData.append('authToken', `Bearer ${idToken}`);
+    
+    const result = await createListingAction(formData);
+
+    setIsSubmitting(false);
+    
+    if (result.success) {
+      toast({
+          title: "Listing Created!",
+          description: "Your new item is now live on the marketplace."
+      });
+      router.push(`/products/${result.productId}`);
+    } else {
+      toast({
+          variant: "destructive",
+          title: "Listing Creation Failed",
+          description: result.error || "Something went wrong. Please try again."
+      });
     }
   }
 
