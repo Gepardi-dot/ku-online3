@@ -14,17 +14,39 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth, signOutUser } from '@/hooks/use-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { db } from '@/lib/firebase';
+import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
+
 
 export default function AppHeader() {
   const [city, setCity] = React.useState("all");
   const { user, isLoading } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
+  const [notificationCount, setNotificationCount] = useState(0);
+
+
+  useEffect(() => {
+    if (user?.uid) {
+      const q = query(collection(db, "notifications"), where("userId", "==", user.uid), where("isRead", "==", false));
+      
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        setNotificationCount(querySnapshot.size);
+      }, (error) => {
+        console.error("Error fetching notification count:", error);
+      });
+
+      return () => unsubscribe();
+    } else {
+      setNotificationCount(0);
+    }
+  }, [user]);
+
 
   const handleSignOut = async () => {
     try {
@@ -131,14 +153,18 @@ export default function AppHeader() {
               </Link>
             )}
             
-            <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
+            <Link href="/favorites" className="flex items-center text-gray-600 hover:text-primary">
               <Heart className="h-6 w-6" />
               <span className="text-sm ml-1 hidden sm:inline">Wishlist</span>
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-primary relative flex items-center">
+            <Link href="/notifications" className="text-gray-600 hover:text-primary relative flex items-center">
                 <Bell className="h-6 w-6" />
                 <span className="text-sm ml-1 hidden sm:inline">Notifications</span>
-                <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                {notificationCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                        {notificationCount}
+                    </span>
+                )}
             </Link>
           </div>
         </div>

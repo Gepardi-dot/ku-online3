@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, orderBy, limit, startAfter, where, Query, DocumentData } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { seedSampleData } from '@/lib/seed-data';
 
 const categories = [
     { name: 'Electronics', href: '#' },
@@ -56,6 +57,7 @@ export default function MarketplacePage() {
   
   const observer = useRef<IntersectionObserver>();
   const isFetching = useRef(false);
+  const dataSeeded = useRef(false);
 
   const buildQuery = useCallback(() => {
     let q: Query<DocumentData> = collection(db, 'products');
@@ -87,16 +89,30 @@ export default function MarketplacePage() {
       q = query(q, limit(PAGE_SIZE));
       
       const querySnapshot = await getDocs(q);
-      const newProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
-      
-      const newLastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-      setLastDoc(newLastDoc || null);
-      setHasMore(newProducts.length === PAGE_SIZE);
 
-      if(isInitialLoad) {
+      // Seed data only on first load if no products are found
+      if(isInitialLoad && querySnapshot.empty && !dataSeeded.current) {
+        dataSeeded.current = true; // prevent re-seeding
+        console.log("No products found, seeding sample data...");
+        await seedSampleData();
+        // Refetch after seeding
+        const seededQuerySnapshot = await getDocs(q);
+        const newProducts = seededQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+        const newLastDoc = seededQuerySnapshot.docs[seededQuerySnapshot.docs.length - 1];
+        setLastDoc(newLastDoc || null);
+        setHasMore(newProducts.length === PAGE_SIZE);
         setProducts(newProducts);
       } else {
-        setProducts(prev => [...prev, ...newProducts]);
+        const newProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
+        const newLastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
+        setLastDoc(newLastDoc || null);
+        setHasMore(newProducts.length === PAGE_SIZE);
+
+        if(isInitialLoad) {
+          setProducts(newProducts);
+        } else {
+          setProducts(prev => [...prev, ...newProducts]);
+        }
       }
 
     } catch (error) {
@@ -241,7 +257,7 @@ export default function MarketplacePage() {
                   </div>
               )}
               {!isLoading && !hasMore && products.length > 0 && (
-                <p className="text-center text-muted-foreground mt-8">You've reached the end of the list.</p>
+                <p className="text-center text-muted-foreground mt-8">You've reached the end of the list!</p>
               )}
                {!isLoading && products.length === 0 && (
                 <div className="col-span-full text-center py-10">

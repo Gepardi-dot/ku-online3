@@ -5,25 +5,26 @@ import { getSimilarItemRecommendations } from '@/ai/flows/similar-item-recommend
 import type { Product } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
-import ProductCard from '@/components/product-card'; // Assuming a generic product card component
+import ProductCard from '@/components/product-card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
 
 interface SimilarItemsProps {
   product: Product;
 }
 
-const placeholderProducts: Omit<Product, 'name' | 'id' | 'imageUrl' | 'imageHint' | 'description' | 'location'>[] = [
-    // These are just for visual structure before real data loads
-    { price: 100000, currency: 'IQD', seller: { name: 'Seller A', avatarUrl: 'https://picsum.photos/seed/sa/40/40', rating: 4.5 }, category: 'Other', condition: 'New', createdAt: '1 day ago' },
-    { price: 120000, currency: 'IQD', seller: { name: 'Seller B', avatarUrl: 'https://picsum.photos/seed/sb/40/40', rating: 4.7 }, category: 'Other', condition: 'Used - Like New', createdAt: '3 days ago' },
-    { price: 80000, currency: 'IQD', seller: { name: 'Seller C', avatarUrl: 'https://picsum.photos/seed/sc/40/40', rating: 4.2 }, category: 'Other', condition: 'New', createdAt: '1 week ago' },
-    { price: 150000, currency: 'IQD', seller: { name: 'Seller D', avatarUrl: 'https://picsum.photos/seed/sd/40/40', rating: 4.8 }, category: 'Other', condition: 'Used - Good', createdAt: '2 days ago' },
-    { price: 200000, currency: 'IQD', seller: { name: 'Seller E', avatarUrl: 'https://picsum.photos/seed/se/40/40', rating: 4.9 }, category: 'Other', condition: 'New', createdAt: '4 days ago' },
+const placeholderProducts: Omit<Product, 'name' | 'id' | 'imageUrl' | 'imageHint' | 'description' | 'location' | 'createdAt'>[] = [
+    { price: 100000, currency: 'IQD', seller: { name: 'Seller A', avatarUrl: 'https://picsum.photos/seed/sa/40/40', rating: 4.5 }, category: 'Other', condition: 'New', sellerId: '1' },
+    { price: 120000, currency: 'IQD', seller: { name: 'Seller B', avatarUrl: 'https://picsum.photos/seed/sb/40/40', rating: 4.7 }, category: 'Other', condition: 'Used - Like New', sellerId: '2' },
+    { price: 80000, currency: 'IQD', seller: { name: 'Seller C', avatarUrl: 'https://picsum.photos/seed/sc/40/40', rating: 4.2 }, category: 'Other', condition: 'New', sellerId: '3' },
+    { price: 150000, currency: 'IQD', seller: { name: 'Seller D', avatarUrl: 'https://picsum.photos/seed/sd/40/40', rating: 4.8 }, category: 'Other', condition: 'Used - Good', sellerId: '4' },
+    { price: 200000, currency: 'IQD', seller: { name: 'Seller E', avatarUrl: 'https://picsum.photos/seed/se/40/40', rating: 4.9 }, category: 'Other', condition: 'New', sellerId: '5' },
 ];
 
 export default function SimilarItems({ product }: SimilarItemsProps) {
   const [recommendations, setRecommendations] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchRecommendations = async () => {
@@ -36,13 +37,18 @@ export default function SimilarItems({ product }: SimilarItemsProps) {
         setRecommendations(result.recommendedItems);
       } catch (error) {
         console.error("Failed to fetch similar items:", error);
+        toast({
+            variant: "default",
+            title: "Could Not Load Recommendations",
+            description: "There was an issue fetching similar items.",
+        })
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchRecommendations();
-  }, [product]);
+  }, [product, toast]);
   
   const recommendedProducts: Product[] = recommendations.map((name, index) => {
     const baseProduct = placeholderProducts[index % placeholderProducts.length];
@@ -54,6 +60,7 @@ export default function SimilarItems({ product }: SimilarItemsProps) {
         imageUrl: `https://picsum.photos/seed/${name.replace(/\s/g, '')}/400/300`,
         imageHint: name.split(' ').slice(0, 2).join(' ').toLowerCase(),
         location: ['Erbil', 'Sulaymaniyah', 'Duhok'][index % 3],
+        createdAt: new Date() as any, // Using current date for placeholder
     };
   });
 
@@ -66,7 +73,7 @@ export default function SimilarItems({ product }: SimilarItemsProps) {
         <Carousel
           opts={{
             align: "start",
-            loop: true,
+            loop: recommendations.length > 3,
           }}
           className="w-full"
         >

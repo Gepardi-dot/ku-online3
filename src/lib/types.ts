@@ -1,4 +1,6 @@
 
+import type { Timestamp } from 'firebase/firestore';
+
 export interface Seller {
   name: string;
   avatarUrl: string;
@@ -7,7 +9,7 @@ export interface Seller {
 
 export interface Product {
   id: string;
-  name: string;
+  name:string;
   price: number;
   currency: 'IQD';
   imageUrl: string;
@@ -17,6 +19,15 @@ export interface Product {
   category: string;
   description: string;
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
-  createdAt: string; // This will be a server timestamp
+  createdAt: Timestamp;
   location: string;
+}
+
+export interface Notification {
+    id: string;
+    userId: string;
+    message: string;
+    href: string;
+    isRead: boolean;
+    createdAt: Timestamp;
 }

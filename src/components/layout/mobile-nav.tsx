@@ -10,7 +10,7 @@ const navItems = [
   { href: '/', label: 'Home', icon: Home },
   { href: '/messages', label: 'Messages', icon: MessageSquare },
   { href: '/create-listing', label: 'Sell', icon: PackagePlus },
-  { href: '#', label: 'Favorites', icon: Heart },
+  { href: '/favorites', label: 'Favorites', icon: Heart },
   { href: '/login', label: 'Account', icon: User },
 ];
 
@@ -30,7 +30,7 @@ export default function MobileNav() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="relative -mt-6 flex h-16 px-6 flex-row items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground shadow-lg transition-transform hover:scale-105"
+                className="relative -mt-6 flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-full bg-primary text-sm font-medium text-primary-foreground shadow-lg transition-transform hover:scale-105"
               >
                 <item.icon className="h-6 w-6" />
                 <span>{item.label}</span>
