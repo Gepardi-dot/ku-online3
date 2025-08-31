@@ -21,6 +21,7 @@ export interface Product {
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
   createdAt: Timestamp;
   location: string;
+  tags?: string[];
 }
 
 export interface Notification {

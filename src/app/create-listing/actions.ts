@@ -92,6 +92,7 @@ export async function createListingAction(formData: FormData) {
       },
       sellerId: user.uid,
       createdAt: serverTimestamp(),
+      name: productData.title,
     });
 
     return { success: true, productId: docRef.id };

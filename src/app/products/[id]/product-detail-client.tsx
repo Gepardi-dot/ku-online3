@@ -111,7 +111,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
             </div>
 
             <Card>
-              <CardHeader className="flex-row items-center gap-4">
+              <CardHeader className="flex-row items-center gap-4 p-4">
                 <Avatar className="h-12 w-12">
                   <AvatarImage src={product.seller.avatarUrl} alt={product.seller.name} />
                   <AvatarFallback>{product.seller.name.charAt(0)}</AvatarFallback>
@@ -161,8 +161,15 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   </DropdownMenu>
               </div>
             </CardHeader>
-            <CardContent className="prose prose-sm sm:prose-base max-w-none text-foreground">
+            <CardContent className="prose prose-sm sm:prose-base max-w-none text-foreground pt-4">
               <p>{translatedDescription || product.description}</p>
+                 {product.tags && product.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 pt-4 mt-4 border-t">
+                        {product.tags.map((tag) => (
+                            <Badge key={tag} variant="secondary">{tag}</Badge>
+                        ))}
+                    </div>
+                )}
             </CardContent>
           </Card>
 
