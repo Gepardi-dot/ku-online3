@@ -241,7 +241,7 @@ export default function MarketplacePage() {
                   </div>
               )}
               {!isLoading && !hasMore && products.length > 0 && (
-                <p className="text-center text-muted-foreground mt-8">You have reached the end.</p>
+                <p className="text-center text-muted-foreground mt-8">You've seen all the listings!</p>
               )}
                {!isLoading && products.length === 0 && (
                 <div className="col-span-full text-center py-10">
@@ -296,5 +296,3 @@ export default function MarketplacePage() {
     </AppLayout>
   );
 }
-
-    
