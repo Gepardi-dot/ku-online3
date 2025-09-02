@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,9 +20,7 @@ import { useAuth, signOutUser } from '@/hooks/use-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { db } from '@/lib/firebase';
-import { collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
-
+// Removed firebase imports, no longer needed for notifications
 
 export default function AppHeader() {
   const [city, setCity] = React.useState("all");
@@ -30,22 +29,14 @@ export default function AppHeader() {
   const router = useRouter();
   const [notificationCount, setNotificationCount] = useState(0);
 
-
-  useEffect(() => {
-    if (user?.uid) {
-      const q = query(collection(db, "notifications"), where("userId", "==", user.uid), where("isRead", "==", false));
-      
-      const unsubscribe = onSnapshot(q, (querySnapshot) => {
-        setNotificationCount(querySnapshot.size);
-      }, (error) => {
-        console.error("Error fetching notification count:", error);
-      });
-
-      return () => unsubscribe();
-    } else {
-      setNotificationCount(0);
-    }
-  }, [user]);
+  // TODO: Re-implement notification fetching with Supabase
+  // useEffect(() => {
+  //   if (user?.id) {
+  //     // Supabase logic to subscribe to notifications would go here
+  //   } else {
+  //     setNotificationCount(0);
+  //   }
+  // }, [user]);
 
 
   const handleSignOut = async () => {
@@ -125,15 +116,15 @@ export default function AppHeader() {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                     <Avatar className="h-9 w-9">
-                      <AvatarImage src={user.photoURL!} alt={user.displayName!} />
-                      <AvatarFallback>{user.displayName?.charAt(0)}</AvatarFallback>
+                      <AvatarImage src={user.user_metadata.avatar_url} alt={user.user_metadata.full_name} />
+                      <AvatarFallback>{user.user_metadata.full_name?.charAt(0)}</AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.displayName}</p>
+                      <p className="text-sm font-medium leading-none">{user.user_metadata.full_name}</p>
                       <p className="text-xs leading-none text-muted-foreground">
                         {user.email}
                       </p>

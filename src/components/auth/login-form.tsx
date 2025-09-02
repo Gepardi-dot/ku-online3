@@ -13,24 +13,23 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
-import { signInWithGoogle } from "@/lib/auth";
-import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 export function LoginForm() {
   const [isSigningIn, setIsSigningIn] = useState(false);
-  const router = useRouter();
   const { toast } = useToast();
 
   const handleGoogleSignIn = async () => {
     setIsSigningIn(true);
     try {
       await signInWithGoogle();
-      router.push("/");
+      // The redirect is handled by Supabase, so we don't need to push the router here.
+      // We can show a toast optimistically.
       toast({
-        title: "Signed In",
-        description: "You have successfully signed in.",
+        title: "Redirecting...",
+        description: "You are being redirected to Google to sign in.",
       });
     } catch (error) {
       console.error("Google Sign-In failed:", error);
@@ -39,9 +38,9 @@ export function LoginForm() {
         title: "Sign-In Failed",
         description: "Could not sign in with Google. Please try again.",
       });
-    } finally {
       setIsSigningIn(false);
     }
+    // No need to set isSigningIn to false if the redirect is successful.
   };
 
   return (
@@ -53,7 +52,7 @@ export function LoginForm() {
       <CardContent className="grid gap-4">
         <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={isSigningIn}>
           {isSigningIn ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Icons.google className="mr-2 h-4 w-4" />}
-          {isSigningIn ? "Signing in..." : "Sign in with Google"}
+          {isSigningIn ? "Redirecting..." : "Sign in with Google"}
         </Button>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">

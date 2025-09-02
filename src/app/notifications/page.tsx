@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -5,13 +6,12 @@ import AppLayout from "@/components/layout/app-layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Bell, Loader2 } from "lucide-react";
 import { useAuth } from '@/hooks/use-auth';
-import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, onSnapshot, doc, updateDoc } from 'firebase/firestore';
 import type { Notification } from '@/lib/types';
 import Link from 'next/link';
 import { formatDistanceToNow } from 'date-fns';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+// Note: Supabase client and query logic would need to be added here
+// For now, this component will show a placeholder state.
 
 export default function NotificationsPage() {
   const { user } = useAuth();
@@ -19,33 +19,15 @@ export default function NotificationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user?.uid) {
-      const q = query(
-        collection(db, "notifications"),
-        where("userId", "==", user.uid),
-        orderBy("createdAt", "desc")
-      );
-
-      const unsubscribe = onSnapshot(q, (snapshot) => {
-        const userNotifications = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Notification));
-        setNotifications(userNotifications);
-        setLoading(false);
-      });
-
-      return () => unsubscribe();
-    } else {
-        setLoading(false);
-    }
+    // TODO: Implement notification fetching from Supabase
+    // This would involve creating a Supabase client and querying a 'notifications' table
+    // For now, we will just show an empty state.
+    setLoading(false);
   }, [user]);
 
   const markAsRead = async (id: string) => {
     if (!user) return;
-    const notifRef = doc(db, "notifications", id);
-    try {
-      await updateDoc(notifRef, { isRead: true });
-    } catch (error) {
-      console.error("Error marking notification as read:", error);
-    }
+    // TODO: Implement logic to mark notification as read in Supabase
   };
 
 
@@ -79,7 +61,7 @@ export default function NotificationsPage() {
                 {!loading && notifications.length > 0 && (
                     <div className="space-y-4">
                         {notifications.map(notif => {
-                             const timeAgo = notif.createdAt?.toDate ? formatDistanceToNow(notif.createdAt.toDate(), { addSuffix: true }) : 'a while ago';
+                             const timeAgo = notif.createdAt ? formatDistanceToNow(new Date(notif.createdAt), { addSuffix: true }) : 'a while ago';
                              return (
                                  <Link key={notif.id} href={notif.href} onClick={() => markAsRead(notif.id)}>
                                     <div className={cn(

@@ -1,6 +1,4 @@
 
-import type { Timestamp } from 'firebase/firestore';
-
 export interface Seller {
   name: string;
   avatarUrl: string;
@@ -13,13 +11,13 @@ export interface Product {
   price: number;
   currency: 'IQD';
   imageUrl: string;
-  imageHint: string;
+  imageHint: string | null;
   seller: Seller;
   sellerId: string;
   category: string;
   description: string;
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
-  createdAt: Timestamp;
+  createdAt: string; // ISO 8601 string format from Supabase
   location: string;
   tags?: string[];
 }
@@ -30,5 +28,5 @@ export interface Notification {
     message: string;
     href: string;
     isRead: boolean;
-    createdAt: Timestamp;
+    createdAt: string; // ISO 8601 string format
 }

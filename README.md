@@ -1,7 +1,7 @@
-# Firebase Studio
+# KU-ONLINE Marketplace on Vercel + Supabase
 
 This is a Next.js starter project for KurdMall, an online marketplace.
 
-To get started, take a look at src/app/page.tsx.
+This version has been migrated to use Supabase for the backend (Authentication, Database, Storage) and is ready to be deployed on Vercel.
 
-After cloning, remember to set your GitHub token if you encounter auth issues.
+To get started, follow the instructions in `README.supabase.md`.

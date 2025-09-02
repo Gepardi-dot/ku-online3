@@ -4,117 +4,89 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ArrowRight, Search, Zap, ShieldCheck, Globe, Tags, Smartphone, Shirt, Home, Gamepad2, HeartPulse, Bike, Book, MoreHorizontal, Loader2, ListFilter, SlidersHorizontal, ArrowUpDown, ChevronDown } from 'lucide-react';
+import { ArrowRight, Loader2, ListFilter, ChevronDown } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
-import Image from 'next/image';
 import Link from 'next/link';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Slider } from '@/components/ui/slider';
 import { cn } from '@/lib/utils';
-import { db } from '@/lib/firebase';
-import { collection, getDocs, query, orderBy, limit, startAfter, where, Query, DocumentData } from 'firebase/firestore';
 import { Skeleton } from '@/components/ui/skeleton';
+import { createSupabaseClient } from '@/lib/supabase-client';
+import { Input } from '@/components/ui/input';
+
 
 const categories = [
-    { name: 'Electronics', href: '#' },
-    { name: 'Fashion', href: '#' },
-    { name: 'Home & Garden', href: '#' },
-    { name: 'Toys', href: '#' },
-    { name: 'Sports', href: '#' },
-    { name: 'Kids', href: '#' },
-    { name: 'Motors', href: '#' },
-    { name: 'Services', href: '#' },
+    { name: 'Electronics', href: '#' }, { name: 'Fashion', href: '#' },
+    { name: 'Home & Garden', href: '#' }, { name: 'Toys', href: '#' },
+    { name: 'Sports', href: '#' }, { name: 'Kids', href: '#' },
+    { name: 'Motors', href: '#' }, { name: 'Services', href: '#' },
     { name: 'Others', href: '#' },
-]
+];
 
 const PAGE_SIZE = 12;
-
 
 export default function MarketplacePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasMore, setHasMore] = useState(true);
-  const [lastDoc, setLastDoc] = useState<DocumentData | null>(null);
+  const [offset, setOffset] = useState(0);
   
-  const [sortBy, setSortBy] = useState('createdAt_desc');
   const [condition, setCondition] = useState('all');
   const [city, setCity] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   
   const observer = useRef<IntersectionObserver>();
   const isFetching = useRef(false);
+  const supabase = createSupabaseClient();
 
-  const buildQuery = useCallback(() => {
-    let q: Query<DocumentData> = collection(db, 'products');
-
-    if(condition !== 'all') {
-      q = query(q, where('condition', '==', condition));
-    }
-    if(city !== 'all') {
-      q = query(q, where('location', '==', city));
-    }
-
-    q = query(q, orderBy('createdAt', 'desc'));
-    
-    return q;
-  }, [condition, city]);
-  
   const fetchProducts = useCallback(async (isInitialLoad = false) => {
     if (isFetching.current) return;
     isFetching.current = true;
     setIsLoading(true);
 
     try {
-      let q = buildQuery();
-      
-      if (!isInitialLoad && lastDoc) {
-        q = query(q, startAfter(lastDoc));
+      let query = supabase.from('products').select('*').order('createdAt', { ascending: false });
+
+      if (condition !== 'all') {
+        query = query.eq('condition', condition);
       }
+      if (city !== 'all') {
+        query = query.eq('location', city);
+      }
+
+      const currentOffset = isInitialLoad ? 0 : offset;
+      query = query.range(currentOffset, currentOffset + PAGE_SIZE - 1);
       
-      q = query(q, limit(PAGE_SIZE));
-      
-      const querySnapshot = await getDocs(q);
-      const newProducts = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Product));
-      const newLastDoc = querySnapshot.docs[querySnapshot.docs.length - 1];
-      setLastDoc(newLastDoc || null);
+      const { data: newProducts, error } = await query;
+
+      if (error) throw error;
+
       setHasMore(newProducts.length === PAGE_SIZE);
 
-      if(isInitialLoad) {
+      if (isInitialLoad) {
         setProducts(newProducts);
+        setOffset(newProducts.length);
       } else {
         setProducts(prev => [...prev, ...newProducts]);
+        setOffset(prev => prev + newProducts.length);
       }
-
     } catch (error) {
       console.error("Error fetching products: ", error);
-      // You might want to show a toast message to the user here
     } finally {
       setIsLoading(false);
       isFetching.current = false;
     }
-  }, [buildQuery, lastDoc]);
+  }, [supabase, condition, city, offset]);
 
   useEffect(() => {
-    setLastDoc(null);
     setProducts([]);
+    setOffset(0);
     setHasMore(true);
     fetchProducts(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortBy, condition, city]);
-
+  }, [condition, city]);
 
   const lastProductElementRef = useCallback((node: HTMLDivElement) => {
     if (isLoading) return;
@@ -129,12 +101,9 @@ export default function MarketplacePage() {
     if (node) observer.current.observe(node);
   }, [isLoading, hasMore, fetchProducts]);
 
-
   return (
     <AppLayout>
       <div className="flex flex-col">
-
-        {/* Categories Section */}
         <section className="py-6 bg-white border-b">
           <div className="container mx-auto px-4">
             <div className="flex items-center gap-x-6 gap-y-2 flex-wrap">
@@ -148,7 +117,6 @@ export default function MarketplacePage() {
           </div>
         </section>
 
-        {/* Special Offers */}
         <section id="special-offers" className="pt-6 pb-12 bg-accent">
           <div className="container mx-auto px-4">
               <div className="flex items-center justify-between mb-4">
@@ -158,7 +126,6 @@ export default function MarketplacePage() {
                   </Button>
               </div>
 
-            {/* Filters Bar */}
             <div className="mb-4 p-4 bg-white rounded-lg shadow-sm">
                 <button 
                     onClick={() => setShowFilters(!showFilters)}
@@ -171,15 +138,11 @@ export default function MarketplacePage() {
                     <ChevronDown className={cn("h-5 w-5 text-muted-foreground transition-transform", { 'rotate-180': showFilters })} />
                 </button>
 
-                <div className={cn("mt-4 pt-4 border-t transition-all duration-300 ease-in-out", {
-                     'hidden': !showFilters
-                })}>
+                <div className={cn("mt-4 pt-4 border-t transition-all duration-300 ease-in-out", { 'hidden': !showFilters })}>
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
                             <Select value={condition} onValueChange={setCondition}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Condition" />
-                                </SelectTrigger>
+                                <SelectTrigger><SelectValue placeholder="Condition" /></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Conditions</SelectItem>
                                     <SelectItem value="New">New</SelectItem>
@@ -190,24 +153,13 @@ export default function MarketplacePage() {
                             </Select>
                             
                             <Select value={city} onValueChange={setCity}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="City" />
-                                </SelectTrigger>
+                                <SelectTrigger><SelectValue placeholder="City" /></SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="all">All Cities</SelectItem>
                                     <SelectItem value="Erbil">Erbil</SelectItem>
                                     <SelectItem value="Sulaymaniyah">Sulaymaniyah</SelectItem>
                                     <SelectItem value="Duhok">Duhok</SelectItem>
                                     <SelectItem value="Zaxo">Zaxo</SelectItem>
-                                </SelectContent>
-                            </Select>
-
-                             <Select value={sortBy} onValueChange={setSortBy} disabled>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Sort By" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="createdAt_desc">Sort by: Newest</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -251,7 +203,6 @@ export default function MarketplacePage() {
           </div>
         </section>
 
-        {/* FAQ Section */}
         <section className="py-12 bg-gray-50">
             <div className="container mx-auto px-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">Frequently Asked Questions</h2>
@@ -280,7 +231,6 @@ export default function MarketplacePage() {
             </div>
         </section>
         
-        {/* Newsletter Section */}
         <section className="py-12 bg-primary text-white">
             <div className="container mx-auto px-4 text-center">
                 <h2 className="text-2xl md:text-3xl font-bold mb-4">Stay Updated with KU-ONLINE</h2>
@@ -291,7 +241,6 @@ export default function MarketplacePage() {
                 </form>
             </div>
         </section>
-
       </div>
     </AppLayout>
   );

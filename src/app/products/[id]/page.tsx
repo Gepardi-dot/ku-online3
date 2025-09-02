@@ -1,16 +1,17 @@
+
 "use client"
 import { useState, useEffect } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import { Loader2 } from 'lucide-react';
 import type { Product } from '@/lib/types';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import ProductDetailClient from './product-detail-client';
+import { createSupabaseClient } from '@/lib/supabase-client';
 
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const supabase = createSupabaseClient();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -20,24 +21,29 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
           return;
       };
       try {
-        const docRef = doc(db, "products", params.id);
-        const docSnap = await getDoc(docRef);
+        const { data, error: fetchError } = await supabase
+            .from('products')
+            .select('*')
+            .eq('id', params.id)
+            .single();
 
-        if (docSnap.exists()) {
-          setProduct({ id: docSnap.id, ...docSnap.data() } as Product);
+        if (fetchError) throw fetchError;
+        
+        if (data) {
+          setProduct(data as Product);
         } else {
           setError("Product not found.");
         }
-      } catch (err) {
+      } catch (err: any) {
           console.error("Error fetching product:", err);
-          setError("Failed to load product data.");
+          setError(err.message || "Failed to load product data.");
       } finally {
         setLoading(false);
       }
     };
 
     fetchProduct();
-  }, [params.id]);
+  }, [params.id, supabase]);
 
   if (loading) {
       return (

@@ -13,24 +13,21 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 import { Icons } from "@/components/icons";
-import { signInWithGoogle } from "@/lib/auth";
-import { useRouter } from "next/navigation";
+import { signInWithGoogle } from "@/hooks/use-auth";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 
 export function SignupForm() {
   const [isSigningUp, setIsSigningUp] = useState(false);
-  const router = useRouter();
   const { toast } = useToast();
 
   const handleGoogleSignUp = async () => {
     setIsSigningUp(true);
     try {
       await signInWithGoogle();
-      router.push("/");
       toast({
-        title: "Account Created",
-        description: "You have successfully created an account.",
+        title: "Redirecting...",
+        description: "You are being redirected to Google to complete your sign up.",
       });
     } catch (error) {
       console.error("Google Sign-Up failed:", error);
@@ -39,8 +36,7 @@ export function SignupForm() {
         title: "Sign-Up Failed",
         description: "Could not sign up with Google. Please try again.",
       });
-    } finally {
-      setIsSigningUp(false);
+       setIsSigningUp(false);
     }
   };
 
@@ -54,7 +50,7 @@ export function SignupForm() {
       <CardContent className="grid gap-4">
         <Button variant="outline" className="w-full" onClick={handleGoogleSignUp} disabled={isSigningUp}>
           {isSigningUp ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Icons.google className="mr-2 h-4 w-4" />}
-          {isSigningUp ? "Signing up..." : "Sign up with Google"}
+          {isSigningUp ? "Redirecting..." : "Sign up with Google"}
         </Button>
       </CardContent>
       <CardFooter className="flex flex-col gap-4">

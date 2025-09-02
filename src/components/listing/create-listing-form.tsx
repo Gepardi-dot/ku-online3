@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createListingAction, generateAIAssistance } from "@/app/create-listing/actions";
-import { auth } from "@/lib/firebase";
 import { useAuth } from "@/hooks/use-auth";
 
 import { Button } from "@/components/ui/button";
@@ -43,37 +42,26 @@ const formSchema = z.object({
   location: z.string().nonempty("Please select a city."),
   description: z.string().min(10, "Description must be at least 10 characters."),
   tags: z.string().optional(),
-  image: z.any().refine(val => val, { message: "Product image is required." }),
+  image: z.instanceof(File).refine(file => file.size > 0, "Product image is required."),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 const categories = [
-  "Electronics",
-  "Home & Garden",
-  "Fashion",
-  "Health & Beauty",
-  "Sports & Outdoors",
-  "Toys & Games",
-  "Books & Media",
-  "Other",
+  "Electronics", "Home & Garden", "Fashion", "Health & Beauty",
+  "Sports & Outdoors", "Toys & Games", "Books & Media", "Other",
 ];
 
-const cities = [
-    "Erbil",
-    "Sulaymaniyah",
-    "Duhok",
-    "Zaxo"
-]
+const cities = ["Erbil", "Sulaymaniyah", "Duhok", "Zaxo"];
 
 export function CreateListingForm() {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageDataUri, setImageDataUri] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
   const router = useRouter();
-
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -85,23 +73,27 @@ export function CreateListingForm() {
       tags: "",
       location: "",
       condition: "New",
+      image: new File([], ""),
     },
   });
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      form.setValue("image", file, { shouldValidate: true });
+      
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-        form.setValue("image", reader.result as string, { shouldValidate: true });
+        setImageDataUri(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
   };
 
   const handleAIAssist = async () => {
-    const imageDataUri = form.getValues("image");
     if (!imageDataUri) {
       toast({
         variant: "destructive",
@@ -169,24 +161,17 @@ export function CreateListingForm() {
 
     const formData = new FormData();
     Object.entries(data).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-            formData.append(key, value as string | Blob);
+        if (value instanceof File) {
+            formData.append(key, value);
+        } else if (value !== null && value !== undefined) {
+            formData.append(key, String(value));
         }
     });
 
-    const idToken = await auth.currentUser?.getIdToken();
-    if (!idToken) {
-         toast({ variant: "destructive", title: "Authentication Error", description: "Could not verify your session. Please sign in again." });
-         setIsSubmitting(false);
-         return;
-    }
-    formData.append('authToken', `Bearer ${idToken}`);
-    
     const result = await createListingAction(formData);
-
     setIsSubmitting(false);
     
-    if (result.success) {
+    if (result.success && result.productId) {
       toast({
           title: "Listing Created!",
           description: "Your new item is now live on the marketplace."
