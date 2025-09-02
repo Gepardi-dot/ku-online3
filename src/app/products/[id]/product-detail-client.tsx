@@ -61,12 +61,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
     }
   }
 
-  const createdAtDate = typeof product.createdAt === 'string'
-    ? new Date(product.createdAt)
-    : (product.createdAt as any)?.toDate
-      ? (product.createdAt as any).toDate()
-      : new Date();
-  const timeAgo = formatDistanceToNow(createdAtDate, { addSuffix: true });
+  const timeAgo = formatDistanceToNow(new Date(product.createdAt), { addSuffix: true });
 
   return (
       <div className="container mx-auto px-4 py-8">
@@ -80,7 +75,7 @@ export default function ProductDetailClient({ product }: ProductDetailClientProp
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 66vw"
-                  data-ai-hint={product.imageHint}
+                  data-ai-hint={product.imageHint || ''}
                   priority
                 />
               </div>
