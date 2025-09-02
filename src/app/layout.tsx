@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils';
 import { AnnouncementBar } from '@/components/layout/announcement-bar';
 import AppFooter from '@/components/layout/footer';
 import MobileNav from '@/components/layout/mobile-nav';
-import { AuthProvider } from '@/hooks/use-auth';
 
 export const metadata: Metadata = {
   title: 'KU-ONLINE - Your Global Online Shopping Destination',
@@ -29,13 +28,11 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased', 'min-h-screen bg-background font-sans')}>
-        <AuthProvider>
           <AnnouncementBar />
           <div className="pb-16 md:pb-0">{children}</div>
           <MobileNav />
           <AppFooter />
           <Toaster />
-        </AuthProvider>
       </body>
     </html>
   );

@@ -8,10 +8,10 @@ import { cn } from '@/lib/utils';
 
 const navItems = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/messages', label: 'Messages', icon: MessageSquare },
-  { href: '/create-listing', label: 'Sell', icon: PackagePlus },
-  { href: '/favorites', label: 'Favorites', icon: Heart },
-  { href: '/login', label: 'Account', icon: User },
+  { href: '#', label: 'Messages', icon: MessageSquare },
+  { href: '#', label: 'Sell', icon: PackagePlus },
+  { href: '#', label: 'Favorites', icon: Heart },
+  { href: '#', label: 'Account', icon: User },
 ];
 
 export default function MobileNav() {
@@ -23,9 +23,9 @@ export default function MobileNav() {
         {navItems.map((item) => {
           const isActive =
             (item.href === '/' && pathname === item.href) ||
-            (item.href !== '/' && pathname.startsWith(item.href));
+            (item.href !== '/' && pathname.startsWith(item.href) && item.href !== '#');
 
-          if (item.href === '/create-listing') {
+          if (item.label === 'Sell') {
             return (
               <Link
                 key={item.label}

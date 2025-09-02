@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
@@ -14,7 +13,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { createSupabaseClient } from '@/lib/supabase-client';
 import { Input } from '@/components/ui/input';
 
 
@@ -26,7 +24,18 @@ const categories = [
     { name: 'Others', href: '#' },
 ];
 
-const PAGE_SIZE = 12;
+const placeholderProducts: Product[] = [
+    { id: '1', name: 'Vintage Leather Jacket', price: 150000, currency: 'IQD', seller: { name: 'Erbil Classic Wears', avatarUrl: 'https://picsum.photos/seed/seller1/40/40', rating: 4.8 }, category: 'Fashion', condition: 'Used - Good', imageUrl: 'https://picsum.photos/seed/jacket/400/300', imageHint: 'leather jacket', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '2', name: 'Modern Bookshelf', price: 90000, currency: 'IQD', seller: { name: 'Suli Home Goods', avatarUrl: 'https://picsum.photos/seed/seller2/40/40', rating: 4.6 }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/bookshelf/400/300', imageHint: 'modern bookshelf', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
+    { id: '3', name: 'Gaming Mouse', price: 75000, currency: 'IQD', seller: { name: 'Duhok Electronics', avatarUrl: 'https://picsum.photos/seed/seller3/40/40', rating: 4.9 }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/mouse/400/300', imageHint: 'gaming mouse', location: 'Duhok', createdAt: new Date().toISOString() },
+    { id: '4', name: 'Handmade Ceramic Vase', price: 45000, currency: 'IQD', seller: { name: 'Kurdistan Crafts', avatarUrl: 'https://picsum.photos/seed/seller4/40/40', rating: 4.7 }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/vase/400/300', imageHint: 'ceramic vase', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '5', name: 'Professional Football', price: 35000, currency: 'IQD', seller: { name: 'Zaxo Sports', avatarUrl: 'https://picsum.photos/seed/seller5/40/40', rating: 4.5 }, category: 'Sports & Outdoors', condition: 'New', imageUrl: 'https://picsum.photos/seed/football/400/300', imageHint: 'professional football', location: 'Zaxo', createdAt: new Date().toISOString() },
+    { id: '6', name: 'Wireless Headphones', price: 110000, currency: 'IQD', seller: { name: 'Erbil Electronics', avatarUrl: 'https://picsum.photos/seed/seller2/40/40', rating: 4.9 }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/headphones/400/300', imageHint: 'wireless headphones', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '7', name: 'Designer Sunglasses', price: 200000, currency: 'IQD', seller: { name: 'Chic Boutique', avatarUrl: 'https://picsum.photos/seed/seller3/40/40', rating: 4.8 }, category: 'Fashion', condition: 'New', imageUrl: 'https://picsum.photos/seed/sunglasses/400/300', imageHint: 'designer sunglasses', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
+    { id: '8', name: 'Antique Kurdish Rug', price: 500000, currency: 'IQD', seller: { name: 'Nishtiman Crafts', avatarUrl: 'https://picsum.photos/seed/seller1/40/40', rating: 4.9 }, category: 'Home & Garden', condition: 'Used - Fair', imageUrl: 'https://picsum.photos/seed/rug/400/300', imageHint: 'kurdish rug', location: 'Duhok', createdAt: new Date().toISOString() },
+];
+
+const PAGE_SIZE = 8;
 
 export default function MarketplacePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -40,29 +49,18 @@ export default function MarketplacePage() {
   
   const observer = useRef<IntersectionObserver>();
   const isFetching = useRef(false);
-  const supabase = createSupabaseClient();
 
   const fetchProducts = useCallback(async (isInitialLoad = false) => {
     if (isFetching.current) return;
     isFetching.current = true;
     setIsLoading(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     try {
-      let query = supabase.from('products').select('*').order('createdAt', { ascending: false });
-
-      if (condition !== 'all') {
-        query = query.eq('condition', condition);
-      }
-      if (city !== 'all') {
-        query = query.eq('location', city);
-      }
-
       const currentOffset = isInitialLoad ? 0 : offset;
-      query = query.range(currentOffset, currentOffset + PAGE_SIZE - 1);
-      
-      const { data: newProducts, error } = await query;
-
-      if (error) throw error;
+      const newProducts = placeholderProducts.slice(currentOffset, currentOffset + PAGE_SIZE);
 
       setHasMore(newProducts.length === PAGE_SIZE);
 
@@ -79,15 +77,14 @@ export default function MarketplacePage() {
       setIsLoading(false);
       isFetching.current = false;
     }
-  }, [supabase, condition, city, offset]);
+  }, [offset]);
 
   useEffect(() => {
     setProducts([]);
     setOffset(0);
     setHasMore(true);
     fetchProducts(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [condition, city]);
+  }, [condition, city]); // Re-fetch when filters change
 
   const lastProductElementRef = useCallback((node: HTMLDivElement) => {
     if (isLoading) return;

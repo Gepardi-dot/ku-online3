@@ -1,7 +1,17 @@
-# KU-ONLINE Marketplace on Vercel + Supabase
+# KU-ONLINE Marketplace Starter
 
-This is a Next.js starter project for KurdMall, an online marketplace.
+This is a Next.js starter project for building the KU-ONLINE marketplace. It's configured with a modern frontend stack and is ready for backend integration.
 
-This version has been migrated to use Supabase for the backend (Authentication, Database, Storage) and is ready to be deployed on Vercel.
+## Tech Stack
 
-To get started, follow the instructions in `README.supabase.md`.
+- **Framework**: Next.js (with App Router)
+- **UI Components**: ShadCN UI
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript
+
+## Backend & Deployment
+
+This project is intended to be used with the following services:
+
+-   **Backend**: [Supabase](https://supabase.com/) for database, authentication, and storage.
+-   **Deployment**: [Vercel](https://vercel.com/) for hosting.

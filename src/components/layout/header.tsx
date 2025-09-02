@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, User, Heart, Bell, Filter, LogOut, PackagePlus } from 'lucide-react';
+import { Search, User, Heart, Bell, Filter, PackagePlus } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import LanguageSwitcher from '../language-switcher';
 import {
@@ -13,49 +13,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuItem,
 } from "@/components/ui/dropdown-menu"
-import React, { useEffect, useState } from 'react';
-import { useAuth, signOutUser } from '@/hooks/use-auth';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
-// Removed firebase imports, no longer needed for notifications
+import React from 'react';
 
 export default function AppHeader() {
   const [city, setCity] = React.useState("all");
-  const { user, isLoading } = useAuth();
-  const { toast } = useToast();
-  const router = useRouter();
-  const [notificationCount, setNotificationCount] = useState(0);
-
-  // TODO: Re-implement notification fetching with Supabase
-  // useEffect(() => {
-  //   if (user?.id) {
-  //     // Supabase logic to subscribe to notifications would go here
-  //   } else {
-  //     setNotificationCount(0);
-  //   }
-  // }, [user]);
-
-
-  const handleSignOut = async () => {
-    try {
-      await signOutUser();
-      router.push('/');
-      toast({
-        title: "Signed Out",
-        description: "You have been successfully signed out.",
-      });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Sign-Out Failed",
-        description: "Could not sign out. Please try again.",
-      });
-    }
-  };
-
 
   return (
     <header className="sticky top-0 z-40 w-full bg-white/80 shadow-sm backdrop-blur-md">
@@ -104,58 +66,25 @@ export default function AppHeader() {
 
           <div className="flex items-center space-x-2 sm:space-x-4">
              <Button asChild className="hidden md:flex">
-                <Link href="/create-listing">
+                <Link href="#">
                   <PackagePlus className="mr-2 h-4 w-4" />
                   Create Listing
                 </Link>
               </Button>
             <LanguageSwitcher />
-
-            {!isLoading && user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                    <Avatar className="h-9 w-9">
-                      <AvatarImage src={user.user_metadata.avatar_url} alt={user.user_metadata.full_name} />
-                      <AvatarFallback>{user.user_metadata.full_name?.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">{user.user_metadata.full_name}</p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleSignOut}>
-                    <LogOut className="mr-2 h-4 w-4" />
-                    <span>Log out</span>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ) : (
-               <Link href="/login" className="flex items-center text-gray-600 hover:text-primary">
-                <User className="h-6 w-6" />
-                <span className="text-sm ml-1 hidden sm:inline">Account</span>
-              </Link>
-            )}
             
-            <Link href="/favorites" className="flex items-center text-gray-600 hover:text-primary">
+            <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
+              <User className="h-6 w-6" />
+              <span className="text-sm ml-1 hidden sm:inline">Account</span>
+            </Link>
+            
+            <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
               <Heart className="h-6 w-6" />
               <span className="text-sm ml-1 hidden sm:inline">Wishlist</span>
             </Link>
-            <Link href="/notifications" className="text-gray-600 hover:text-primary relative flex items-center">
+            <Link href="#" className="text-gray-600 hover:text-primary relative flex items-center">
                 <Bell className="h-6 w-6" />
                 <span className="text-sm ml-1 hidden sm:inline">Notifications</span>
-                {notificationCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                        {notificationCount}
-                    </span>
-                )}
             </Link>
           </div>
         </div>
