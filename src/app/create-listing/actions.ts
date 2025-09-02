@@ -80,7 +80,7 @@ export async function createListingAction(formData: FormData) {
     const { data: newProduct, error: insertError } = await supabase
         .from('products')
         .insert(productData)
-        .select()
+        .select('id')
         .single();
 
     if (insertError) {
