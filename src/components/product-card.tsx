@@ -32,7 +32,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const timeAgo = product.createdAt ? formatDistanceToNow(new Date(product.createdAt), { addSuffix: true }) : 'a while ago';
 
   return (
-    <Link href={`/products/${product.id}`} className="group block">
+    <Link href="#" className="group block">
       <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
         <div className="relative aspect-square">
           <Image

@@ -22,26 +22,7 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
-      {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
-        port: '',
-        pathname: '/**',
-      },
     ],
-  },
-  async headers() {
-    return [
-      {
-        source: '/_next/:path*',
-        headers: [
-          {
-            key: 'Access-Control-Allow-Origin',
-            value: '*',
-          },
-        ],
-      },
-    ];
   },
 };
 

@@ -1,6 +1,5 @@
-import { Facebook, Twitter, Instagram, Youtube, Apple, AppStore, Play, Store, Gamepad2, ShoppingCart } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Apple, Play } from "lucide-react";
 import Link from "next/link";
-import { Icons } from "../icons";
 
 export default function AppFooter() {
     return (

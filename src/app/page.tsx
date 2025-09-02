@@ -1,10 +1,10 @@
 
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Loader2, ListFilter, ChevronDown } from 'lucide-react';
+import { ArrowRight, ListFilter, ChevronDown } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
 import Link from 'next/link';
@@ -25,80 +25,24 @@ const categories = [
 ];
 
 const placeholderProducts: Product[] = [
-    { id: '1', name: 'Vintage Leather Jacket', price: 150000, currency: 'IQD', seller: { name: 'Erbil Classic Wears', avatarUrl: 'https://picsum.photos/seed/seller1/40/40', rating: 4.8 }, category: 'Fashion', condition: 'Used - Good', imageUrl: 'https://picsum.photos/seed/jacket/400/300', imageHint: 'leather jacket', location: 'Erbil', createdAt: new Date().toISOString() },
-    { id: '2', name: 'Modern Bookshelf', price: 90000, currency: 'IQD', seller: { name: 'Suli Home Goods', avatarUrl: 'https://picsum.photos/seed/seller2/40/40', rating: 4.6 }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/bookshelf/400/300', imageHint: 'modern bookshelf', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
-    { id: '3', name: 'Gaming Mouse', price: 75000, currency: 'IQD', seller: { name: 'Duhok Electronics', avatarUrl: 'https://picsum.photos/seed/seller3/40/40', rating: 4.9 }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/mouse/400/300', imageHint: 'gaming mouse', location: 'Duhok', createdAt: new Date().toISOString() },
-    { id: '4', name: 'Handmade Ceramic Vase', price: 45000, currency: 'IQD', seller: { name: 'Kurdistan Crafts', avatarUrl: 'https://picsum.photos/seed/seller4/40/40', rating: 4.7 }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/vase/400/300', imageHint: 'ceramic vase', location: 'Erbil', createdAt: new Date().toISOString() },
-    { id: '5', name: 'Professional Football', price: 35000, currency: 'IQD', seller: { name: 'Zaxo Sports', avatarUrl: 'https://picsum.photos/seed/seller5/40/40', rating: 4.5 }, category: 'Sports & Outdoors', condition: 'New', imageUrl: 'https://picsum.photos/seed/football/400/300', imageHint: 'professional football', location: 'Zaxo', createdAt: new Date().toISOString() },
-    { id: '6', name: 'Wireless Headphones', price: 110000, currency: 'IQD', seller: { name: 'Erbil Electronics', avatarUrl: 'https://picsum.photos/seed/seller2/40/40', rating: 4.9 }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/headphones/400/300', imageHint: 'wireless headphones', location: 'Erbil', createdAt: new Date().toISOString() },
-    { id: '7', name: 'Designer Sunglasses', price: 200000, currency: 'IQD', seller: { name: 'Chic Boutique', avatarUrl: 'https://picsum.photos/seed/seller3/40/40', rating: 4.8 }, category: 'Fashion', condition: 'New', imageUrl: 'https://picsum.photos/seed/sunglasses/400/300', imageHint: 'designer sunglasses', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
-    { id: '8', name: 'Antique Kurdish Rug', price: 500000, currency: 'IQD', seller: { name: 'Nishtiman Crafts', avatarUrl: 'https://picsum.photos/seed/seller1/40/40', rating: 4.9 }, category: 'Home & Garden', condition: 'Used - Fair', imageUrl: 'https://picsum.photos/seed/rug/400/300', imageHint: 'kurdish rug', location: 'Duhok', createdAt: new Date().toISOString() },
+    { id: '1', name: 'Vintage Leather Jacket', price: 150000, currency: 'IQD', seller: { name: 'Erbil Classic Wears', avatarUrl: 'https://picsum.photos/seed/seller1/40/40' }, category: 'Fashion', condition: 'Used - Good', imageUrl: 'https://picsum.photos/seed/jacket/400/300', imageHint: 'leather jacket', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '2', name: 'Modern Bookshelf', price: 90000, currency: 'IQD', seller: { name: 'Suli Home Goods', avatarUrl: 'https://picsum.photos/seed/seller2/40/40' }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/bookshelf/400/300', imageHint: 'modern bookshelf', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
+    { id: '3', name: 'Gaming Mouse', price: 75000, currency: 'IQD', seller: { name: 'Duhok Electronics', avatarUrl: 'https://picsum.photos/seed/seller3/40/40' }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/mouse/400/300', imageHint: 'gaming mouse', location: 'Duhok', createdAt: new Date().toISOString() },
+    { id: '4', name: 'Handmade Ceramic Vase', price: 45000, currency: 'IQD', seller: { name: 'Kurdistan Crafts', avatarUrl: 'https://picsum.photos/seed/seller4/40/40' }, category: 'Home & Garden', condition: 'New', imageUrl: 'https://picsum.photos/seed/vase/400/300', imageHint: 'ceramic vase', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '5', name: 'Professional Football', price: 35000, currency: 'IQD', seller: { name: 'Zaxo Sports', avatarUrl: 'https://picsum.photos/seed/seller5/40/40' }, category: 'Sports & Outdoors', condition: 'New', imageUrl: 'https://picsum.photos/seed/football/400/300', imageHint: 'professional football', location: 'Zaxo', createdAt: new Date().toISOString() },
+    { id: '6', name: 'Wireless Headphones', price: 110000, currency: 'IQD', seller: { name: 'Erbil Electronics', avatarUrl: 'https://picsum.photos/seed/seller2/40/40' }, category: 'Electronics', condition: 'New', imageUrl: 'https://picsum.photos/seed/headphones/400/300', imageHint: 'wireless headphones', location: 'Erbil', createdAt: new Date().toISOString() },
+    { id: '7', name: 'Designer Sunglasses', price: 200000, currency: 'IQD', seller: { name: 'Chic Boutique', avatarUrl: 'https://picsum.photos/seed/seller3/40/40' }, category: 'Fashion', condition: 'New', imageUrl: 'https://picsum.photos/seed/sunglasses/400/300', imageHint: 'designer sunglasses', location: 'Sulaymaniyah', createdAt: new Date().toISOString() },
+    { id: '8', name: 'Antique Kurdish Rug', price: 500000, currency: 'IQD', seller: { name: 'Nishtiman Crafts', avatarUrl: 'https://picsum.photos/seed/seller1/40/40' }, category: 'Home & Garden', condition: 'Used - Fair', imageUrl: 'https://picsum.photos/seed/rug/400/300', imageHint: 'kurdish rug', location: 'Duhok', createdAt: new Date().toISOString() },
 ];
 
 const PAGE_SIZE = 8;
 
 export default function MarketplacePage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hasMore, setHasMore] = useState(true);
-  const [offset, setOffset] = useState(0);
-  
+  const [products] = useState<Product[]>(placeholderProducts);
   const [condition, setCondition] = useState('all');
   const [city, setCity] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
   
-  const observer = useRef<IntersectionObserver>();
-  const isFetching = useRef(false);
-
-  const fetchProducts = useCallback(async (isInitialLoad = false) => {
-    if (isFetching.current) return;
-    isFetching.current = true;
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    try {
-      const currentOffset = isInitialLoad ? 0 : offset;
-      const newProducts = placeholderProducts.slice(currentOffset, currentOffset + PAGE_SIZE);
-
-      setHasMore(newProducts.length === PAGE_SIZE);
-
-      if (isInitialLoad) {
-        setProducts(newProducts);
-        setOffset(newProducts.length);
-      } else {
-        setProducts(prev => [...prev, ...newProducts]);
-        setOffset(prev => prev + newProducts.length);
-      }
-    } catch (error) {
-      console.error("Error fetching products: ", error);
-    } finally {
-      setIsLoading(false);
-      isFetching.current = false;
-    }
-  }, [offset]);
-
-  useEffect(() => {
-    setProducts([]);
-    setOffset(0);
-    setHasMore(true);
-    fetchProducts(true);
-  }, [condition, city]); // Re-fetch when filters change
-
-  const lastProductElementRef = useCallback((node: HTMLDivElement) => {
-    if (isLoading) return;
-    if (observer.current) observer.current.disconnect();
-    
-    observer.current = new IntersectionObserver(entries => {
-        if (entries[0].isIntersecting && hasMore && !isFetching.current) {
-            fetchProducts();
-        }
-    });
-
-    if (node) observer.current.observe(node);
-  }, [isLoading, hasMore, fetchProducts]);
-
   return (
     <AppLayout>
       <div className="flex flex-col">
@@ -166,38 +110,10 @@ export default function MarketplacePage() {
             </div>
 
               <div className="grid grid-cols-2 gap-x-2 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-                {isLoading && products.length === 0 ? (
-                  Array.from({ length: PAGE_SIZE }).map((_, index) => (
-                      <Card key={index}>
-                          <CardContent className="flex flex-col aspect-square items-center justify-center p-2 gap-2">
-                             <Skeleton className="w-full h-32 rounded-lg" />
-                             <Skeleton className="w-3/4 h-4 mt-1" />
-                             <Skeleton className="w-1/2 h-6" />
-                          </CardContent>
-                      </Card>
-                  ))
-                ) : (
-                  products.map((product, index) => {
-                      if(products.length === index + 1) {
-                          return <div ref={lastProductElementRef} key={product.id}><ProductCard product={product} /></div>
-                      }
-                      return <ProductCard key={product.id} product={product} />
-                  })
-                )}
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
               </div>
-              {isLoading && products.length > 0 && (
-                  <div className="flex justify-center mt-8">
-                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  </div>
-              )}
-              {!isLoading && !hasMore && products.length > 0 && (
-                <p className="text-center text-muted-foreground mt-8">You've reached the end of the list!</p>
-              )}
-               {!isLoading && products.length === 0 && (
-                <div className="col-span-full text-center py-10">
-                    <p className="text-lg text-muted-foreground">No products found matching your criteria.</p>
-                </div>
-              )}
           </div>
         </section>
 

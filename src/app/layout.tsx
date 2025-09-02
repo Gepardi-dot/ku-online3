@@ -9,7 +9,7 @@ import MobileNav from '@/components/layout/mobile-nav';
 
 export const metadata: Metadata = {
   title: 'KU-ONLINE - Your Global Online Shopping Destination',
-  description: 'A multi-vendor, AI-enhanced local marketplace for the Kurdistan region, inspired by AliExpress.',
+  description: 'A multi-vendor local marketplace for the Kurdistan region.',
 };
 
 export default function RootLayout({

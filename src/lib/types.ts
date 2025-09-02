@@ -2,7 +2,6 @@
 export interface Seller {
   name: string;
   avatarUrl: string;
-  rating: number;
 }
 
 export interface Product {
@@ -13,20 +12,9 @@ export interface Product {
   imageUrl: string;
   imageHint: string | null;
   seller: Seller;
-  sellerId: string;
   category: string;
-  description: string;
   condition: 'New' | 'Used - Like New' | 'Used - Good' | 'Used - Fair';
   createdAt: string; // ISO 8601 string format
   location: string;
   tags?: string[];
-}
-
-export interface Notification {
-    id: string;
-    userId: string;
-    message: string;
-    href: string;
-    isRead: boolean;
-    createdAt: string; // ISO 8601 string format
 }
