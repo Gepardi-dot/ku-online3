@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search, User, Heart, Bell, Filter, PackagePlus } from 'lucide-react';
+import { Search, Filter, PackagePlus } from 'lucide-react';
 import { Icons } from '@/components/icons';
 import LanguageSwitcher from '../language-switcher';
 import {
@@ -65,27 +65,14 @@ export default function AppHeader() {
           </div>
 
           <div className="flex items-center space-x-2 sm:space-x-4">
-             <Button asChild className="hidden md:flex">
+             <Button asChild>
                 <Link href="#">
                   <PackagePlus className="mr-2 h-4 w-4" />
                   Create Listing
                 </Link>
               </Button>
             <LanguageSwitcher />
-            
-            <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
-              <User className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Account</span>
-            </Link>
-            
-            <Link href="#" className="flex items-center text-gray-600 hover:text-primary">
-              <Heart className="h-6 w-6" />
-              <span className="text-sm ml-1 hidden sm:inline">Wishlist</span>
-            </Link>
-            <Link href="#" className="text-gray-600 hover:text-primary relative flex items-center">
-                <Bell className="h-6 w-6" />
-                <span className="text-sm ml-1 hidden sm:inline">Notifications</span>
-            </Link>
+            <Button variant="outline">Log In</Button>
           </div>
         </div>
 

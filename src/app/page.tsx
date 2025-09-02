@@ -9,10 +9,8 @@ import ProductCard from '@/components/product-card';
 import type { Product } from '@/lib/types';
 import Link from 'next/link';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
-import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Input } from '@/components/ui/input';
 
 
@@ -35,7 +33,6 @@ const placeholderProducts: Product[] = [
     { id: '8', name: 'Antique Kurdish Rug', price: 500000, currency: 'IQD', seller: { name: 'Nishtiman Crafts', avatarUrl: 'https://picsum.photos/seed/seller1/40/40' }, category: 'Home & Garden', condition: 'Used - Fair', imageUrl: 'https://picsum.photos/seed/rug/400/300', imageHint: 'kurdish rug', location: 'Duhok', createdAt: new Date().toISOString() },
 ];
 
-const PAGE_SIZE = 8;
 
 export default function MarketplacePage() {
   const [products] = useState<Product[]>(placeholderProducts);

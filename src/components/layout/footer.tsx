@@ -1,5 +1,4 @@
 import { Facebook, Twitter, Instagram, Youtube, Apple, Play } from "lucide-react";
-import Link from "next/link";
 
 export default function AppFooter() {
     return (
