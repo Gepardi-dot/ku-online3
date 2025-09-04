@@ -4,7 +4,7 @@ import AppLayout from '@/components/layout/app-layout';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ListFilter, ChevronDown } from 'lucide-react';
 import ProductCard from '@/components/product-card';
-import ProductList from './ProductList';
+import ProductList from '../ProductList';
 import type { Product } from '@/lib/types';
 import Link from 'next/link';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
