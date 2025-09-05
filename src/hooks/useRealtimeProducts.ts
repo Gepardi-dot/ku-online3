@@ -7,26 +7,41 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const useRealtimeProducts = (): Product[] => {
+export interface UseRealtimeProductsReturn {
+  products: Product[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+export const useRealtimeProducts = (): UseRealtimeProductsReturn => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch initial products from Supabase
     const fetchProducts = async () => {
       try {
+        setIsLoading(true);
+        setError(null);
+        
         const { data, error } = await supabase
           .from('products')
           .select('*')
           .order('created_at', { ascending: false });
-
+          
         if (error) {
           console.error('Error fetching products:', error);
+          setError('Failed to load products');
           return;
         }
-
+        
         setProducts(data || []);
       } catch (err) {
         console.error('Error in fetchProducts:', err);
+        setError('Failed to load products');
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -69,7 +84,7 @@ export const useRealtimeProducts = (): Product[] => {
     };
   }, []);
 
-  return products;
+  return { products, isLoading, error };
 };
 
 export default useRealtimeProducts;
