@@ -2,7 +2,7 @@
 
 ## Core Features:
 
-- Secure Authentication: User authentication via Google OAuth, email/password, and phone verification for secure access.
+- Secure Authentication: User authentication via email/password and phone verification for secure access.
 - Listing Management: Create and manage listings with images, categories, pricing, and status (active, sold, hidden).
 - Multilingual Search: Advanced filtering and multilingual search across Kurdish, Arabic, and English with saved search alerts.
 - Product Showcase: Display detailed item views with high-res galleries, descriptions, seller cards, and AI-driven similar item recommendations.

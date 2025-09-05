@@ -117,7 +117,6 @@ When you deploy your project to Vercel, you need to set up environment variables
 | ---------------------------- | ---------------------------------------- |
 | `NEXT_PUBLIC_SUPABASE_URL`   | Your Supabase Project URL                |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Your `anon` public key                   |
-| `GEMINI_API_KEY`             | Your Google Gemini API Key (for AI features) |
 
 **Note**: For security reasons, we are not exposing the `SUPABASE_SERVICE_ROLE_KEY`. Our application logic is designed to work securely without it by relying on user-level permissions and RLS.
 

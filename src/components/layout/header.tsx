@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search, Filter, PackagePlus } from 'lucide-react';
 import { Icons } from '@/components/icons';
-import LanguageSwitcher from '../language-switcher';
+import LanguageSwitcher from '@/components/language-switcher';
 import {
   DropdownMenu,
   DropdownMenuContent,

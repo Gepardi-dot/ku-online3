@@ -6,7 +6,7 @@ export interface Seller {
 
 export interface Product {
   id: string;
-  name:string;
+  name: string;
   price: number;
   currency: 'IQD';
   imageUrl: string;

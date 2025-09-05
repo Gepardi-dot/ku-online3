@@ -1,19 +1,5 @@
 import { useState, useEffect } from 'react';
-
-export interface Product {
-  id: string;
-  name: string;
-  price: number;
-  location: string;
-  condition: string;
-  imageUrl: string;
-  createdAt: string;
-  imageHint?: string;
-  seller: {
-    name: string;
-    avatarUrl: string;
-  };
-}
+import type { Product } from '@/lib/types';
 
 export const useRealtimeProducts = (): Product[] => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,11 +11,13 @@ export const useRealtimeProducts = (): Product[] => {
         id: '1',
         name: 'Example Product',
         price: 25000,
+        currency: 'IQD',
         location: 'Baghdad',
         condition: 'New',
         imageUrl: '/placeholder-product.jpg',
-        createdAt: new Date().toISOString(),
         imageHint: 'Example product image',
+        createdAt: new Date().toISOString(),
+        category: 'Electronics',
         seller: {
           name: 'John Doe',
           avatarUrl: '/placeholder-avatar.jpg'
@@ -39,11 +27,13 @@ export const useRealtimeProducts = (): Product[] => {
         id: '2',
         name: 'Another Product',
         price: 15000,
+        currency: 'IQD',
         location: 'Basra',
-        condition: 'Used',
+        condition: 'Used - Good',
         imageUrl: '/placeholder-product-2.jpg',
-        createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
         imageHint: 'Another product image',
+        createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
+        category: 'Fashion',
         seller: {
           name: 'Jane Smith',
           avatarUrl: '/placeholder-avatar-2.jpg'
@@ -53,11 +43,13 @@ export const useRealtimeProducts = (): Product[] => {
         id: '3',
         name: 'Third Product Example',
         price: 35000,
+        currency: 'IQD',
         location: 'Erbil',
-        condition: 'Like New',
+        condition: 'Used - Like New',
         imageUrl: '/placeholder-product-3.jpg',
-        createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
         imageHint: 'Third product image',
+        createdAt: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
+        category: 'Home & Garden',
         seller: {
           name: 'Ahmed Ali',
           avatarUrl: '/placeholder-avatar-3.jpg'
