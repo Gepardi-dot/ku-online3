@@ -24,7 +24,7 @@ export default function AuthPage() {
 
     getSession()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session)
         if (event === 'SIGNED_IN') {
@@ -33,7 +33,7 @@ export default function AuthPage() {
       }
     )
 
-    return () => subscription.unsubscribe()
+    return () => data.subscription.unsubscribe()
   }, [supabase, router])
 
   if (loading) {
