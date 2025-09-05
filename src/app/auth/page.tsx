@@ -34,26 +34,31 @@ export default function AuthPage() {
     )
 
     return () => subscription.unsubscribe()
-  }, [supabase.auth, router])
+  }, [supabase, router])
 
   if (loading) {
     return <div>Loading...</div>
   }
 
   if (session) {
-    return null
+    return null // This will redirect via useEffect
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-md">
-      <h1 className="text-3xl font-bold text-center mb-8">Sign In</h1>
-      <Auth
-        supabaseClient={supabase}
-        appearance={{ theme: ThemeSupa }}
-        theme="default"
-        providers={['google', 'github']}
-        redirectTo={`${location.origin}/auth/callback`}
-      />
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full space-y-8">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
+        </div>
+        <Auth
+          supabaseClient={supabase}
+          appearance={{ theme: ThemeSupa }}
+          theme="default"
+          providers={['google', 'github']}
+        />
+      </div>
     </div>
   )
 }
