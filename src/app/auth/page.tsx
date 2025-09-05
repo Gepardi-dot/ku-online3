@@ -9,8 +9,8 @@ import type { Session } from '@supabase/supabase-js'
 export default function AuthPage() {
   const [supabase] = useState(() => createClientComponentClient())
   const router = useRouter()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [session, setSession] = useState<Session | null>(null)
+  console.log(session)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,38 +33,36 @@ export default function AuthPage() {
         }
       }
     )
-    
+
     return () => data.subscription.unsubscribe()
-  }, [supabase.auth, router])
+  }, [supabase, router])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    )
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
+    <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+          Sign in to your account
+        </h2>
+      </div>
+
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            theme="light"
+            providers={['google']}
+            redirectTo={`${window.location.origin}/auth/callback`}
+          />
         </div>
-        <Auth
-          supabaseClient={supabase}
-          appearance={{
-            theme: ThemeSupa,
-            variables: {
-              default: {
-                colors: {
-                  brand: '#404040',
-                  brandAccent: '#52525b',
-                },
-              },
-            },
-          }}
-          providers={['google', 'github']}
-          redirectTo={`${window.location.origin}/auth/callback`}
-        />
       </div>
     </div>
   )
