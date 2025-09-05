@@ -2,12 +2,12 @@
 import { useState, useEffect } from 'react';
 import AppLayout from '@/components/layout/app-layout';
 import ProductList from '@/ProductList';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import type { Session } from '@supabase/auth-helpers-nextjs';
+import type { Session } from '@supabase/supabase-js';
+import { createClient } from '@/utils/supabase/client';
 
 export default function MarketplacePage() {
   const [session, setSession] = useState<Session | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const getSession = async () => {
