@@ -21,9 +21,9 @@ export default function AuthPage() {
         router.push('/')
       }
     }
-
+    
     getSession()
-
+    
     const { data } = supabase.auth.onAuthStateChange(
       (event, session) => {
         setSession(session)
@@ -32,31 +32,23 @@ export default function AuthPage() {
         }
       }
     )
-
+    
     return () => data.subscription.unsubscribe()
-  }, [supabase, router])
+  }, [supabase.auth, router])
 
   if (loading) {
     return <div>Loading...</div>
   }
 
-  if (session) {
-    return null // This will redirect via useEffect
-  }
-
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-        </div>
+    <div className="row">
+      <div className="col-6">
+        <h1 className="header">Supabase Auth + Next.js</h1>
         <Auth
           supabaseClient={supabase}
           appearance={{ theme: ThemeSupa }}
-          theme="default"
-          providers={['google', 'github']}
+          theme="dark"
+          providers={[]}
         />
       </div>
     </div>
