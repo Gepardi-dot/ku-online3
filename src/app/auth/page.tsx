@@ -1,13 +1,13 @@
 'use client'
 import { Auth } from '@supabase/auth-ui-react'
 import { ThemeSupa } from '@supabase/auth-ui-shared'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import type { Session } from '@supabase/supabase-js'
+import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import type { Session } from '@supabase/supabase-js'
 
 export default function AuthPage() {
-  const [supabase] = useState(() => createClientComponentClient())
+  const supabase = createClient()
   const router = useRouter()
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
