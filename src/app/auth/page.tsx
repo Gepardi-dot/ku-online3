@@ -10,7 +10,6 @@ export default function AuthPage() {
   const [supabase] = useState(() => createClientComponentClient())
   const router = useRouter()
   const [session, setSession] = useState<Session | null>(null)
-  console.log(session)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export default function AuthPage() {
         }
       }
     )
-
+    
     return () => data.subscription.unsubscribe()
   }, [supabase, router])
 
@@ -45,6 +44,11 @@ export default function AuthPage() {
     )
   }
 
+  // Display session info in development for debugging
+  if (process.env.NODE_ENV === 'development' && session) {
+    console.log('Current session:', session)
+  }
+
   return (
     <div className="flex min-h-screen flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -52,7 +56,6 @@ export default function AuthPage() {
           Sign in to your account
         </h2>
       </div>
-
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <Auth
