@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Configure for Replit environment to allow proxy access
+  experimental: {
+    allowedHosts: true,
+  },
 };
 
 export default nextConfig;
