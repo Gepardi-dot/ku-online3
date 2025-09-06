@@ -18,7 +18,7 @@ export default function MarketplacePage() {
     getSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (_event: any, session: any) => {
         setSession(session);
       }
     );
