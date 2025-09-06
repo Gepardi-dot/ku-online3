@@ -1,4 +1,4 @@
-import { useRealtimeProducts } from '@/hooks/useRealtimeProducts';
+import { useRealtimeProducts } from './hooks/useRealtimeProducts';
 
 export default function ProductList() {
   const { products, isLoading, error } = useRealtimeProducts();

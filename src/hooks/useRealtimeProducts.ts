@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import type { Product } from '@/lib/types';
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { createClient } from '../../utils/supabase/client';
+import type { Product } from '../lib/types';
 
 export interface UseRealtimeProductsReturn {
   products: Product[];
@@ -19,6 +14,7 @@ export const useRealtimeProducts = (): UseRealtimeProductsReturn => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const supabase = createClient();
     // Fetch initial products from Supabase
     const fetchProducts = async () => {
       try {
@@ -28,7 +24,7 @@ export const useRealtimeProducts = (): UseRealtimeProductsReturn => {
         const { data, error } = await supabase
           .from('products')
           .select('*')
-          .order('created_at', { ascending: false });
+          .order('createdAt', { ascending: false });
           
         if (error) {
           console.error('Error fetching products:', error);

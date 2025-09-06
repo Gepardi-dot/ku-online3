@@ -44,9 +44,13 @@ export default function AuthPage() {
     )
   }
 
-  // Display session info in development for debugging
-  if (process.env.NODE_ENV === 'development' && session) {
-    console.log('Current session:', session)
+  // Don't render auth form if already authenticated
+  if (session) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    )
   }
 
   return (
