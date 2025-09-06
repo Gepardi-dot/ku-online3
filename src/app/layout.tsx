@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import './globals.css';
-import { Toaster } from '@/components/ui/toaster';
-import { cn } from '@/lib/utils';
-import { AnnouncementBar } from '@/components/layout/announcement-bar';
-import AppFooter from '@/components/layout/footer';
-import MobileNav from '@/components/layout/mobile-nav';
+import { Toaster } from '../components/ui/toaster';
+import { cn } from '../lib/utils';
+import { AnnouncementBar } from '../components/layout/announcement-bar';
+import AppFooter from '../components/layout/footer';
+import MobileNav from '../components/layout/mobile-nav';
 
 export const metadata: Metadata = {
   title: 'KU-ONLINE - Your Global Online Shopping Destination',
