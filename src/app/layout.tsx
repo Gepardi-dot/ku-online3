@@ -37,12 +37,18 @@ export default function RootLayout({
                     KU-ONLINE
                   </Link>
                 </div>
-                <nav className="flex space-x-8">
+                <nav className="hidden md:flex space-x-8">
                   <Link href="/" className="text-gray-600 hover:text-gray-900">
-                    Home
+                    Browse
                   </Link>
-                  <Link href="/auth" className="text-gray-600 hover:text-gray-900">
-                    Sign In / Sign Up
+                  <Link href="/sell" className="text-gray-600 hover:text-gray-900">
+                    Sell
+                  </Link>
+                  <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">
+                    Dashboard
+                  </Link>
+                  <Link href="/auth" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    Sign In
                   </Link>
                 </nav>
               </div>
